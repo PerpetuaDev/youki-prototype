@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunlight · ようき — design handoff</title>
+<meta name="description" content="Design handoff for Sunlight (ようき), a sunrise forecast app for iOS — live prototype, widget explorations, and implementation spec.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#141110;
+    --ink:#f3ece1;
+    --sub:rgba(243,236,225,.55);
+    --line:rgba(255,255,255,.09);
+    --card:rgba(255,255,255,.06);
+    --accent:#f0b968;
+    --cta:#e0913a;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);color:var(--ink);
+    font-family:'Manrope','Zen Kaku Gothic New',sans-serif;
+    font-size:15px;line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:var(--accent);text-decoration:none}
+  a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:4px}
+
+  /* ---------- Hero: the product's own sky ---------- */
+  @keyframes floatCloud{0%{transform:translateX(0)}100%{transform:translateX(24px)}}
+  @keyframes sunGlow{0%,100%{opacity:.92}50%{opacity:1}}
+  .sky{
+    position:relative;overflow:hidden;
+    min-height:480px;height:64vh;
+    background:linear-gradient(180deg,#6e7f99,#8b89a2 16%,#a68aa0 32%,#c28d97 46%,#de8d7d 60%,#f29a72 72%,#f9a55c 83%,#ffbe5e 93%,#ffd27a);
+  }
+  .sky .glow{
+    position:absolute;left:50%;bottom:-26vh;transform:translateX(-50%);
+    width:120vh;height:60vh;pointer-events:none;
+    background:radial-gradient(ellipse at center,rgba(255,235,170,.85),rgba(255,205,110,.35) 45%,transparent 70%);
+    animation:sunGlow 7s ease-in-out infinite;
+  }
+  .cloud{position:absolute;border-radius:50%;filter:blur(26px);pointer-events:none}
+  .cloud.a{width:44vw;height:9vh;left:6vw;top:22%;background:rgba(255,255,255,.16);animation:floatCloud 44s ease-in-out infinite alternate}
+  .cloud.b{width:34vw;height:7vh;right:4vw;top:38%;background:rgba(90,80,110,.18);animation:floatCloud 52s ease-in-out infinite alternate-reverse}
+  .cloud.c{width:52vw;height:8vh;left:24vw;top:56%;background:rgba(255,240,220,.12);animation:floatCloud 34s ease-in-out infinite alternate}
+  .hero-inner{
+    position:relative;z-index:2;
+    max-width:880px;margin:0 auto;padding:0 28px;
+    height:100%;min-height:inherit;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    padding-bottom:56px;
+    color:#fff;text-shadow:0 1px 10px rgba(40,20,10,.28);
+  }
+  .brand{display:flex;align-items:center;gap:10px;margin-bottom:22px}
+  .disc{
+    width:26px;height:26px;border-radius:50%;background:#f0a13f;flex:none;
+    box-shadow:inset 0 0 0 2.5px rgba(255,236,190,.6),0 1px 8px rgba(40,20,10,.25);
+  }
+  .brand .en{font-size:16px;font-weight:700;letter-spacing:-.01em}
+  .brand .jp{font-size:14.5px;font-weight:700;letter-spacing:-.05em;opacity:.85;font-family:'Zen Kaku Gothic New','Manrope',sans-serif}
+  .brand .sep{opacity:.5;font-weight:400}
+  h1{font-size:clamp(40px,7vw,64px);font-weight:300;letter-spacing:-.015em;line-height:1.08}
+  .hero-sub{margin-top:12px;font-size:16px;font-weight:500;opacity:.92;max-width:34em}
+  .hero-actions{display:flex;align-items:center;gap:22px;margin-top:30px;flex-wrap:wrap}
+  .btn{
+    display:inline-block;background:var(--cta);color:#fff;
+    font:inherit;font-size:14px;font-weight:700;letter-spacing:.01em;
+    padding:13px 26px;border-radius:999px;border:0;cursor:pointer;
+    box-shadow:0 6px 22px -8px rgba(60,30,5,.5);
+    transition:transform .15s ease,box-shadow .15s ease;
+    text-shadow:none;
+  }
+  .btn:hover{transform:translateY(-1px);box-shadow:0 10px 26px -8px rgba(60,30,5,.55)}
+  .ghost{font-size:14px;font-weight:600;color:#fff;border-bottom:1px solid rgba(255,255,255,.45);padding-bottom:2px}
+  .ghost:hover{border-color:#fff}
+
+  /* ---------- Body ---------- */
+  main{max-width:880px;margin:0 auto;padding:0 28px 40px}
+  section{padding:58px 0;border-bottom:1px solid var(--line)}
+  section:last-of-type{border-bottom:0}
+  .eyebrow{
+    font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;
+    color:var(--accent);margin-bottom:18px;
+  }
+  .lede{font-size:17px;line-height:1.75;color:var(--ink);max-width:44em}
+  .lede + .lede{margin-top:14px}
+  .lede .dim{color:var(--sub)}
+
+  .cards{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px}
+  .card{
+    display:flex;flex-direction:column;gap:10px;
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:26px 26px 22px;color:var(--ink);
+    transition:background .2s ease,border-color .2s ease;
+  }
+  .card:hover{background:rgba(255,255,255,.09);border-color:rgba(255,255,255,.16)}
+  .card .tag{font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--sub)}
+  .card h3{font-size:19px;font-weight:700;letter-spacing:-.01em}
+  .card p{font-size:13.5px;line-height:1.65;color:var(--sub)}
+  .card .meta{font-size:11.5px;color:var(--sub);border-top:1px solid var(--line);padding-top:12px;margin-top:auto}
+  .card .open{font-size:13px;font-weight:700;color:var(--accent);margin-top:2px}
+
+  .shots{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:6px;align-items:start}
+  figure{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:14px;overflow:hidden}
+  figure img{width:100%;height:auto;display:block;border-radius:10px;background:#f6f1e8;padding:10px}
+  figcaption{font-size:11.5px;color:var(--sub);padding:12px 6px 4px;line-height:1.5}
+  figcaption b{color:var(--ink);font-weight:700}
+
+  .notes{list-style:none;margin-top:6px}
+  .notes li{
+    display:grid;grid-template-columns:190px 1fr;gap:18px;
+    padding:14px 0;border-bottom:1px solid var(--line);
+    font-size:13.5px;line-height:1.6;
+  }
+  .notes li:last-child{border-bottom:0}
+  .notes .k{font-weight:700;color:var(--ink)}
+  .notes .v{color:var(--sub)}
+  .notes .v a{font-weight:600}
+
+  footer{
+    max-width:880px;margin:0 auto;padding:26px 28px 46px;
+    border-top:1px solid var(--line);
+    display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;
+    font-size:11.5px;color:var(--sub);
+  }
+
+  @media (max-width:640px){
+    .cards,.shots{grid-template-columns:1fr}
+    .notes li{grid-template-columns:1fr;gap:2px}
+    section{padding:44px 0}
+    .hero-inner{padding-bottom:44px}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .cloud,.sky .glow{animation:none}
+    html{scroll-behavior:auto}
+  }
+</style>
+</head>
+<body>
+
+<header class="sky">
+  <div class="glow"></div>
+  <div class="cloud a"></div>
+  <div class="cloud b"></div>
+  <div class="cloud c"></div>
+  <div class="hero-inner">
+    <div class="brand">
+      <span class="disc"></span>
+      <span class="en">sunlight</span>
+      <span class="sep">·</span>
+      <span class="jp">ようき</span>
+    </div>
+    <h1>Design handoff</h1>
+    <p class="hero-sub">A sunrise forecast app for iOS. It scores every morning 0–100, simulates the predicted sky, and wakes you only for the ones worth seeing.</p>
+    <div class="hero-actions">
+      <a class="btn" href="prototype.html">Open the prototype</a>
+      <a class="ghost" href="#spec">Read the spec ↓</a>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="eyebrow">What this is</div>
+    <p class="lede">Everything on this page comes from the design phase of Sunlight and is ready to hand to implementation. The prototypes below are interactive design references built in HTML — they show the intended look and behaviour exactly, but the deliverable is a native rebuild, with SwiftUI + WidgetKit as the natural fit.</p>
+    <p class="lede dim">The full spec — design tokens, sky gradients, every screen with measurements, interactions, state model, and API integration points — lives in the README in this repository.</p>
+  </section>
+
+  <section>
+    <div class="eyebrow">Open the designs</div>
+    <div class="cards">
+      <a class="card" href="prototype.html">
+        <span class="tag">Source of truth</span>
+        <h3>The prototype</h3>
+        <p>The complete app: home with the live sky, colour analysis, calendar, locations, settings, paywall, and onboarding. Covers light &amp; dark themes, English &amp; Japanese, and free / trial / pro plan states.</p>
+        <span class="meta">Opens at 4:53 AM · dark theme · Pro plan. Switch theme and language from the in-app settings sheet.</span>
+        <span class="open">Open →</span>
+      </a>
+      <a class="card" href="explorations.html">
+        <span class="tag">Design history</span>
+        <h3>The explorations</h3>
+        <p>Turns 1–7 of the design process, kept for context. Only the turn-7 widgets (7a–7d, below) are current deliverables — earlier turns show the reasoning, not the spec.</p>
+        <span class="meta">Reference only. Where it disagrees with the prototype, the prototype wins.</span>
+        <span class="open">Open →</span>
+      </a>
+    </div>
+  </section>
+
+  <section>
+    <div class="eyebrow">Widgets — current deliverables</div>
+    <div class="shots">
+      <figure>
+        <img src="screenshots/7a-dawn-forecast-small.png" alt="Dawn forecast small widget: tomorrow's predicted dawn gradient with score 91, condition word, and golden hour countdown" loading="lazy">
+        <figcaption><b>7a · Dawn forecast (2×2)</b> — always tomorrow's predicted dawn, refreshed each evening.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/7b-live-sky-medium.png" alt="Live sky medium widget in two states: pale midday blue with dark ink, and a vivid pre-sunset gradient with white text" loading="lazy">
+        <figcaption><b>7b · Live sky (4×2)</b> — the current sky as the surface; note the dark-ink treatment on pale daylight skies.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/7c-live-sky-small.png" alt="Live sky small widget: score top, next event stacked bottom-left" loading="lazy">
+        <figcaption><b>7c · Live sky (2×2)</b> — the small variant; next event stacks bottom-left.</figcaption>
+      </figure>
+      <figure>
+        <img src="screenshots/7d-colour-bar.png" alt="Colour bar widgets on a flat dark ground with the predicted colour ramp running along the bottom edge" loading="lazy">
+        <figcaption><b>7d · Colour bar (2×2 + 4×2)</b> — minimal: flat dark ground, the predicted-colour ramp does the talking.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <section id="spec">
+    <div class="eyebrow">For implementation</div>
+    <ul class="notes">
+      <li><span class="k">Full spec</span><span class="v"><a href="https://github.com/PerpetuaDev/youki-prototype#readme">README.md</a> — tokens, type scale, all five sky gradient sets, screen-by-screen measurements, interactions, and state model.</span></li>
+      <li><span class="k">Target</span><span class="v">iOS · SwiftUI + WidgetKit suggested. Measurements in the spec are CSS px at a 340×722 frame, roughly iOS points.</span></li>
+      <li><span class="k">Assets</span><span class="v">None. Every visual is code-drawn: gradients, blurred-ellipse clouds, radial sun glow, inline SVG icons, CSS logo disc.</span></li>
+      <li><span class="k">Fonts</span><span class="v">Manrope (300–800) with Zen Kaku Gothic New for Japanese, one stack, from Google Fonts.</span></li>
+      <li><span class="k">Localisation</span><span class="v">Full EN/JP string tables (~70 keys) live in the prototype's logic. Theme and language swap instantly, whole app.</span></li>
+      <li><span class="k">AI colour analysis</span><span class="v">In production, the expanded-sky sentence is generated per day + language (prompt pattern in the spec). This web build has no model attached, so it shows the canned per-condition fallback copy — by design.</span></li>
+      <li><span class="k">Integrations</span><span class="v">Weather/astronomy data, StoreKit (annual + monthly, 7-day trial), evening suggestion notifications, per-day alarms, widget timelines — all specified in the README.</span></li>
+    </ul>
+  </section>
+</main>
+
+<footer>
+  <span>Sunlight · ようき — designed with Claude Design, July 2026</span>
+  <span><a href="https://github.com/PerpetuaDev/youki-prototype">github.com/PerpetuaDev/youki-prototype</a></span>
+</footer>
+
+</body>
+</html>

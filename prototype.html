@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#ece5da;font-family:"Manrope","Zen Kaku Gothic New",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box}
+  a{color:#b9772a}a:hover{color:#8f5c1f}
+  @keyframes floatCloud{0%{transform:translateX(0)}100%{transform:translateX(24px)}}
+  @keyframes sunGlow{0%,100%{opacity:.92}50%{opacity:1}}
+</style>
+</helmet>
+<div style="min-height:100vh;display:flex;justify-content:center;align-items:flex-start;padding:44px 20px 60px;background:#ece5da">
+<div style="display:contents;{{ themeVars }}">
+<div style="width:394px;height:832px;border-radius:54px;background:#111;padding:12px;box-shadow:0 34px 80px -28px rgba(40,28,12,.55),0 8px 22px -10px rgba(40,28,12,.35);position:relative;flex:none">
+<div style="position:absolute;top:12px;left:50%;transform:translateX(-50%);width:120px;height:32px;background:#111;border-radius:0 0 18px 18px;z-index:60"></div>
+<div style="width:100%;height:100%;border-radius:42px;overflow:hidden;position:relative;background:var(--bg,#f6f1e8);color:var(--ink,#1b1712);font-family:'Manrope','Zen Kaku Gothic New',sans-serif">
+
+  <div style="position:absolute;top:0;left:0;right:0;height:50px;z-index:30;display:flex;align-items:flex-end;justify-content:space-between;padding:0 28px 4px;font-size:14px;font-weight:600;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.25);pointer-events:none"><span>{{ clock }}</span><span style="font-size:11px">▪▪▪ ᯤ ▮</span></div>
+
+  <!-- Sky (tap to expand/collapse) -->
+  <div onClick="{{ toggleSky }}" style="position:absolute;top:0;left:0;right:0;z-index:1;overflow:hidden;cursor:pointer;transition:height .6s cubic-bezier(.4,0,.2,1),border-radius .6s;height:{{ skyH }};border-radius:{{ skyRad }}">
+    <span onClick="{{ openLoc }}" style="position:absolute;top:46px;left:50%;transform:translateX(-50%);padding:10px 14px;color:rgba(255,255,255,.85);font-size:12px;font-weight:600;text-shadow:0 1px 8px rgba(0,0,0,.32);z-index:6;cursor:pointer;display:flex;align-items:center;gap:5px"><svg width="12" height="12" viewBox="0 0 12 12" style="flex:none"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="1.1"></circle><circle cx="6" cy="6" r="1.9" fill="none" stroke="currentColor" stroke-width="1.1"></circle></svg>{{ locName }}</span>
+
+    <sc-if value="{{ day.isVivid }}" hint-placeholder-val="{{ true }}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#6e7f99 0%,#8b89a2 16%,#a68aa0 32%,#c28d97 46%,#de8d7d 60%,#f29a72 72%,#f9a55c 83%,#ffbe5e 93%,#ffd27a 100%)">
+        <div style="position:absolute;top:-16px;left:-24px;width:70px;height:70px;border-radius:50%;background:rgba(84,97,124,.55);box-shadow:54px 12px 0 -8px rgba(84,97,124,.5),120px 2px 0 -2px rgba(84,97,124,.55),190px 16px 0 -12px rgba(84,97,124,.45),250px 6px 0 -4px rgba(84,97,124,.5),30px 36px 0 -14px rgba(84,97,124,.4);filter:blur(8px);animation:floatCloud 34s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;top:24%;left:-20px;width:380px;height:30px;border-radius:50%;background:rgba(122,116,146,.4);filter:blur(10px);animation:floatCloud 40s ease-in-out infinite alternate-reverse"></div>
+        <div style="position:absolute;top:44%;left:14px;width:310px;height:22px;border-radius:50%;background:rgba(190,130,138,.32);filter:blur(12px)"></div>
+        <div style="position:absolute;top:58%;right:-16px;width:250px;height:18px;border-radius:50%;background:rgba(250,170,110,.28);filter:blur(13px)"></div>
+        <div style="position:absolute;bottom:-70px;left:50%;transform:translateX(-50%);width:200px;height:200px;border-radius:50%;background:radial-gradient(circle,rgba(255,242,208,.95) 0%,rgba(255,214,150,.5) 32%,rgba(255,185,120,0) 68%);animation:sunGlow 7s ease-in-out infinite"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ day.isClear }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#2e4157 0%,#48607a 20%,#748ba0 42%,#a7b6bc 60%,#dcc68f 76%,#f0b656 89%,#f7a844 100%)">
+        <div style="position:absolute;bottom:0;left:0;right:0;height:84px;background:linear-gradient(180deg,rgba(118,122,130,0) 0%,rgba(122,124,132,.16) 40%,rgba(130,128,133,.26) 75%,rgba(134,130,134,.18) 100%);filter:blur(7px)"></div>
+        <div style="position:absolute;bottom:-64px;left:50%;transform:translateX(-50%);width:190px;height:190px;border-radius:50%;background:radial-gradient(circle,rgba(255,248,220,.95) 0%,rgba(255,226,160,.45) 32%,rgba(255,205,140,0) 66%);animation:sunGlow 7s ease-in-out infinite"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ day.isOvercast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#9791a6 0%,#a89cb2 28%,#b6a5b6 52%,#c9adb4 70%,#eebd80 86%,#f4a94f 100%)">
+        <div style="position:absolute;top:-36px;left:-36px;width:140px;height:96px;border-radius:50%;background:rgba(148,138,162,.75);box-shadow:100px 18px 0 -10px rgba(148,138,162,.7),210px 2px 0 0 rgba(148,138,162,.75),50px 56px 0 -8px rgba(155,143,164,.7),180px 60px 0 -12px rgba(155,143,164,.65),290px 38px 0 -6px rgba(148,138,162,.7);filter:blur(12px);animation:floatCloud 44s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;top:38%;left:-28px;width:170px;height:64px;border-radius:50%;background:rgba(164,148,170,.7);box-shadow:130px 12px 0 -8px rgba(164,148,170,.68),250px 0 0 -2px rgba(164,148,170,.7);filter:blur(11px);animation:floatCloud 52s ease-in-out infinite alternate-reverse"></div>
+        <div style="position:absolute;bottom:13%;left:30px;width:150px;height:14px;border-radius:50%;background:rgba(250,180,110,.6);filter:blur(5px)"></div>
+        <div style="position:absolute;bottom:9%;right:-24px;width:190px;height:16px;border-radius:50%;background:rgba(196,158,152,.55);filter:blur(6px)"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ day.isPastel }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#46536e 0%,#687792 30%,#8b96ab 46%,#c2b49f 68%,#ecd39a 85%,#ffd98a 100%)">
+        <div style="position:absolute;top:30%;left:-16px;width:300px;height:14px;border-radius:50%;background:rgba(160,160,190,.35);filter:blur(7px)"></div>
+        <div style="position:absolute;bottom:-60px;left:50%;transform:translateX(-50%);width:170px;height:170px;border-radius:50%;background:radial-gradient(circle,rgba(255,240,206,.8) 0%,rgba(255,225,170,.38) 34%,rgba(255,210,150,0) 66%);animation:sunGlow 7s ease-in-out infinite"></div>
+      </div>
+    </sc-if>
+
+    <sc-if value="{{ day.isMuted }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(180deg,#5a6474 0%,#79808f 30%,#8a8ea0 48%,#a89e9e 68%,#c4ab92 86%,#d9b183 100%)">
+        <div style="position:absolute;top:-20px;left:-30px;width:110px;height:70px;border-radius:50%;background:rgba(96,102,120,.6);box-shadow:80px 12px 0 -8px rgba(96,102,120,.55),170px 4px 0 -2px rgba(96,102,120,.6),40px 40px 0 -10px rgba(104,108,124,.5),230px 30px 0 -6px rgba(96,102,120,.55);filter:blur(11px);animation:floatCloud 46s ease-in-out infinite alternate"></div>
+        <div style="position:absolute;top:42%;left:-20px;width:280px;height:26px;border-radius:50%;background:rgba(130,128,142,.45);filter:blur(9px)"></div>
+        <div style="position:absolute;bottom:-56px;left:50%;transform:translateX(-50%);width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(250,228,180,.55) 0%,rgba(240,210,160,.28) 36%,rgba(230,195,150,0) 66%);animation:sunGlow 7s ease-in-out infinite"></div>
+      </div>
+    </sc-if>
+
+    <!-- Projected sky for a tapped milestone -->
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:4;pointer-events:none;transition:opacity .7s ease;opacity:{{ pvOp }};background:{{ pvSky }}">
+      <div style="position:absolute;left:50%;transform:translateX(-50%);width:210px;height:210px;border-radius:50%;background:radial-gradient(circle,rgba(255,246,218,.95) 0%,rgba(255,222,165,.45) 34%,rgba(255,200,135,0) 68%);bottom:{{ pvGlowB }};opacity:{{ pvGlowOp }};transition:bottom .7s ease,opacity .7s ease"></div>
+    </div>
+  </div>
+
+  <!-- Home content -->
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+    <div style="position:absolute;top:266px;left:0;right:0;bottom:60px;padding:30px 26px 0;display:flex;flex-direction:column;overflow:hidden">
+      <div style="display:flex;align-items:flex-end;justify-content:space-between">
+        <div>
+          <div style="font-size:70px;font-weight:300;line-height:.9;letter-spacing:-.03em;margin-left:-4px;opacity:{{ day.scoreOp }}">{{ day.qs }}</div>
+          <div style="margin-top:10px;font-weight:600;font-size:15.5px">{{ day.label }}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:24px;font-weight:500;letter-spacing:-.02em">{{ day.eventTime }}</div>
+          <div style="font-size:10.5px;font-weight:600;margin-top:2px;white-space:nowrap"><span style="color:var(--accent,#c37a2c)">{{ day.riseLine }}</span><sc-if value="{{ day.riseSub }}" hint-placeholder-val="{{ false }}"><span style="color:var(--sub,rgba(27,23,18,.55));font-weight:500"> {{ day.riseSub }}</span></sc-if></div>
+          <sc-if value="{{ wakeable }}" hint-placeholder-val="{{ true }}"><button onClick="{{ toggleWake }}" style="margin-top:10px;padding:8px 18px;border-radius:999px;border:1.5px solid {{ wakeBorder }};background:{{ wakeBg }};color:{{ wakeCol }};font-weight:700;font-size:11.5px;cursor:pointer;font-family:inherit">{{ wakeLabel }}</button></sc-if>
+        </div>
+      </div>
+      <div style="margin-top:26px;font-size:9.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--sub,rgba(27,23,18,.55));font-weight:700;margin-bottom:6px">{{ t.predicted }}</div>
+      <div style="height:12px;border-radius:6px;background:{{ day.ramp }};opacity:{{ day.rampOp }}"></div>
+      <div style="margin-top:20px">
+        <div onClick="{{ pickFL }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 10px;margin:0 -10px;border-radius:12px;cursor:pointer;transition:background .3s;background:{{ evBg.firstLight }};border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;gap:10px;align-items:center"><span style="width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;opacity:.35;flex:none"></span><span style="font-weight:500;font-size:13.5px">{{ t.firstLight }}</span></span><span style="font-variant-numeric:tabular-nums;color:var(--sub,rgba(27,23,18,.55));font-size:13px">{{ day.firstLight }}</span></div>
+        <div onClick="{{ pickGA }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 10px;margin:0 -10px;border-radius:12px;cursor:pointer;transition:background .3s;background:{{ evBg.golden }};border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;gap:10px;align-items:center"><span style="width:9px;height:9px;border-radius:50%;background:#e0913a;flex:none"></span><span style="font-weight:500;font-size:13.5px">{{ t.golden }}</span></span><span style="font-variant-numeric:tabular-nums;color:var(--sub,rgba(27,23,18,.55));font-size:13px">{{ day.golden }}</span></div>
+        <div onClick="{{ pickSR }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 10px;margin:0 -10px;border-radius:12px;cursor:pointer;transition:background .3s;background:{{ evBg.sunrise }};border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;gap:10px;align-items:center"><span style="width:9px;height:9px;border-radius:50%;background:var(--accent,#c37a2c);flex:none"></span><span style="font-weight:600;font-size:13.5px">{{ t.sunrise }}</span></span><span style="font-variant-numeric:tabular-nums;font-weight:600;font-size:13px">{{ day.sunrise }}</span></div>
+        <div onClick="{{ pickDL }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 10px;margin:0 -10px;border-radius:12px;cursor:pointer;transition:background .3s;background:{{ evBg.daylight }};border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;gap:10px;align-items:center"><span style="width:9px;height:9px;border-radius:50%;border:1.5px solid currentColor;opacity:.35;flex:none"></span><span style="font-weight:500;font-size:13.5px">{{ t.daylight }}</span></span><span style="font-variant-numeric:tabular-nums;color:var(--sub,rgba(27,23,18,.55));font-size:13px">{{ day.daylight }}</span></div>
+        <div onClick="{{ pickPM }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 10px;margin:0 -10px;border-radius:12px;cursor:pointer;transition:background .3s;background:{{ evBg.goldenPM }};border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;gap:10px;align-items:center"><span style="width:9px;height:9px;border-radius:50%;background:#e0913a;opacity:.7;flex:none"></span><span style="font-weight:500;font-size:13.5px">{{ t.goldenPM }}</span></span><span style="font-variant-numeric:tabular-nums;color:var(--sub,rgba(27,23,18,.55));font-size:13px">{{ day.goldenPM }}</span></div>
+        <div onClick="{{ pickSS }}" style="display:flex;justify-content:space-between;align-items:center;padding:11px 10px;margin:0 -10px;border-radius:12px;cursor:pointer;transition:background .3s;background:{{ evBg.sunset }}"><span style="display:flex;gap:10px;align-items:center"><span style="width:9px;height:9px;border-radius:50%;background:currentColor;opacity:.3;flex:none"></span><span style="font-weight:500;font-size:13.5px">{{ t.sunset }}</span></span><span style="font-variant-numeric:tabular-nums;color:var(--sub,rgba(27,23,18,.55));font-size:13px">{{ day.sunset }}</span></div>
+      </div>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;height:60px;z-index:20;background:var(--barbg,rgba(246,241,232,.92));backdrop-filter:blur(10px);border-top:1px solid var(--line,rgba(27,23,18,.08));display:flex;align-items:center;justify-content:space-between;padding:0 30px">
+      <span style="display:flex;align-items:center;gap:6px;margin-left:-4px;font-weight:600;font-size:{{ brandSize }};letter-spacing:{{ brandSpace }}"><span style="width:15px;height:15px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 2.5px rgba(255,236,190,.6);transform:translateY(1.5px)"></span>{{ brandName }}</span>
+      <span style="display:flex;gap:2px;margin-right:-13px">
+        <button onClick="{{ toggleSky }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--sub,rgba(27,23,18,.55));cursor:pointer"><svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4h4v4"></path><path d="M8 16H4v-4"></path><path d="M16 4l-4.5 4.5"></path><path d="M4 16l4.5-4.5"></path></svg></button>
+        <button onClick="{{ openCalendar }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--sub,rgba(27,23,18,.55));cursor:pointer"><svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="3" y="4.5" width="14" height="12" rx="3"></rect><path d="M3 8.5h14"></path><path d="M7 3v3"></path><path d="M13 3v3"></path></svg></button>
+        <button onClick="{{ openSettings }}" style="width:44px;height:44px;display:flex;align-items:center;justify-content:center;border:none;background:none;color:var(--sub,rgba(27,23,18,.55));cursor:pointer"><svg viewBox="0 0 20 20" width="19" height="19" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 6h2.6"></path><path d="M10.4 6H17"></path><circle cx="8" cy="6" r="2.3"></circle><path d="M3 14h6.6"></path><path d="M15.4 14H17"></path><circle cx="13" cy="14" r="2.3"></circle></svg></button>
+      </span>
+    </div>
+  </sc-if>
+
+  <!-- Expanded sky overlay: colour analysis -->
+  <sc-if value="{{ isExpanded }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:10;pointer-events:none;color:#fff">
+      <div style="position:absolute;bottom:18px;left:16px;right:16px;pointer-events:auto;background:rgba(14,10,18,.6);backdrop-filter:blur(18px);border:1px solid rgba(255,255,255,.15);border-radius:26px;padding:14px 24px 18px">
+        <div style="width:38px;height:4px;border-radius:2px;background:rgba(255,255,255,.25);margin:0 auto 12px"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px">
+          <span style="font-weight:700;font-size:17px">{{ t.analysisTitle }}</span>
+          <span style="padding:6px 12px;border-radius:999px;background:rgba(255,255,255,.12);font-size:12px;font-weight:700;white-space:nowrap">{{ day.qs }}/100</span>
+        </div>
+        <p style="margin:12px 0 0;font-size:13.5px;line-height:1.65;color:rgba(255,255,255,.95)">{{ analysisText }}</p>
+        <div style="margin-top:16px;height:10px;border-radius:5px;background:{{ day.ramp }}"></div>
+        <div style="display:flex;justify-content:space-between;font-size:10.5px;opacity:.75;margin-top:6px;font-weight:600"><span>{{ day.firstLight }}</span><span>{{ day.sunrise }}</span><span>{{ day.blueEnd }}</span></div>
+        <div style="display:flex;margin-top:16px;border-top:1px solid rgba(255,255,255,.14);padding-top:13px">
+          <div style="flex:1"><div style="font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;opacity:.6;font-weight:700">{{ t.goldenCard }}</div><div style="font-size:13.5px;font-weight:600;margin-top:3px">{{ day.golden }}</div></div>
+          <div style="width:86px"><div style="font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;opacity:.6;font-weight:700">{{ t.cloud }}</div><div style="font-size:13.5px;font-weight:600;margin-top:3px">{{ day.cloud }}</div></div>
+          <div style="width:52px"><div style="font-size:9.5px;letter-spacing:.07em;text-transform:uppercase;opacity:.6;font-weight:700">UV</div><div style="font-size:13.5px;font-weight:600;margin-top:3px">{{ day.uv }}</div></div>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- Settings sheet -->
+  <sc-if value="{{ showSettings }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeSettings }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:40;background:rgba(10,8,10,.4)"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:41;background:var(--bg,#f6f1e8);border-radius:26px 26px 0 0;padding:20px 24px 30px;color:var(--ink,#1b1712)">
+      <div style="width:38px;height:4px;border-radius:2px;background:var(--line,rgba(27,23,18,.12));margin:0 auto 14px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-weight:700;font-size:17px">{{ t.settings }}</span>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))">
+        <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.plan }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ planLabel }}</span></span>
+        <sc-if value="{{ notPro }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openPaywall }}" style="padding:9px 16px;border-radius:999px;border:none;background:#e0913a;color:#fff;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit">{{ t.upgrade }}</button></sc-if>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))">
+        <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.smartAlarm }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.smartAlarmSub }}</span></span>
+        <div onClick="{{ toggleSmart }}" style="width:42px;height:25px;border-radius:999px;background:{{ tSmart.bg }};position:relative;cursor:pointer;transition:background .2s;flex:none"><div style="position:absolute;top:2.5px;left:2.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:transform .2s;transform:{{ tSmart.tx }}"></div></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))">
+        <span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.sunsetAl }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.sunsetAlSub }}</span></span>
+        <div onClick="{{ toggleSunset }}" style="width:42px;height:25px;border-radius:999px;background:{{ tSunset.bg }};position:relative;cursor:pointer;transition:background .2s;flex:none"><div style="position:absolute;top:2.5px;left:2.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:transform .2s;transform:{{ tSunset.tx }}"></div></div>
+      </div>
+      <div onClick="{{ openFullSettings }}" style="display:flex;align-items:center;justify-content:space-between;padding:15px 0 4px;cursor:pointer">
+        <span style="font-weight:600;font-size:14px">{{ t.allSettings }}</span><span style="color:var(--sub,rgba(27,23,18,.55))">›</span>
+      </div>
+    </div>
+  </sc-if>
+
+
+  <!-- Calendar (week) sheet -->
+  <sc-if value="{{ showCalendar }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeCalendar }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:40;background:rgba(10,8,10,.4)"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:41;background:var(--bg,#f6f1e8);border-radius:26px 26px 0 0;padding:20px 24px 26px;color:var(--ink,#1b1712)">
+      <div style="width:38px;height:4px;border-radius:2px;background:var(--line,rgba(27,23,18,.12));margin:0 auto 14px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-weight:700;font-size:17px">{{ t.calTitle }}</span>
+      </div>
+      <sc-for list="{{ days }}" as="d" hint-placeholder-count="7">
+        <div onClick="{{ selectDayCal }}" data-idx="{{ $index }}" data-locked="{{ d.lockAttr }}" style="display:flex;align-items:center;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08));cursor:pointer;opacity:{{ d.rowOp }}">
+          <span style="display:flex;flex-direction:column;gap:2px;min-width:86px">
+            <span style="display:flex;align-items:center;gap:6px;font-weight:600;font-size:14px">{{ d.name }}<sc-if value="{{ d.isSel }}" hint-placeholder-val="{{ false }}"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a"></span></sc-if><sc-if value="{{ d.armed }}" hint-placeholder-val="{{ false }}"><span style="width:8px;height:8px;border-radius:50%;border:2px solid #e0913a;flex:none"></span></sc-if></span>
+            <span style="font-size:11px;color:var(--sub,rgba(27,23,18,.55))">{{ d.date }}</span>
+          </span>
+          <span style="font-size:11px;color:var(--sub,rgba(27,23,18,.55))">{{ d.conf }}</span>
+          <span style="display:flex;align-items:center;gap:10px;min-width:64px;justify-content:flex-end">
+            <sc-if value="{{ d.locked }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><rect x="4.5" y="9" width="11" height="8" rx="2"></rect><path d="M7 9V6.5a3 3 0 0 1 6 0V9"></path></svg></sc-if>
+            <sc-if value="{{ d.unlocked }}" hint-placeholder-val="{{ true }}"><span style="width:9px;height:9px;border-radius:50%;background:{{ d.dot }}"></span><span style="font-weight:700;font-size:14px;font-variant-numeric:tabular-nums">{{ d.qs }}</span></sc-if>
+          </span>
+        </div>
+      </sc-for>
+      <div onClick="{{ toggleCalInfo }}" style="display:flex;gap:7px;align-items:center;margin-top:14px;cursor:pointer;color:var(--sub,rgba(27,23,18,.55));font-weight:600;font-size:12.5px">
+        <span style="width:14px;height:14px;border-radius:50%;border:1.5px solid currentColor;display:flex;align-items:center;justify-content:center;font-size:9px;font-style:italic;font-family:Georgia,serif;flex:none">i</span>{{ t.aboutForecasts }}
+      </div>
+      <sc-if value="{{ showCalInfo }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:11px;line-height:1.55;color:var(--sub,rgba(27,23,18,.55));margin-top:10px">{{ t.calNote }}</div>
+      </sc-if>
+    </div>
+  </sc-if>
+
+  <!-- Locations sheet -->
+  <sc-if value="{{ showLoc }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closeLoc }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:40;background:rgba(10,8,10,.4)"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:41;background:var(--bg,#f6f1e8);border-radius:26px 26px 0 0;padding:20px 24px 26px;color:var(--ink,#1b1712)">
+      <div style="width:38px;height:4px;border-radius:2px;background:var(--line,rgba(27,23,18,.12));margin:0 auto 14px"></div>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+        <span style="font-weight:700;font-size:17px">{{ t.locations }}</span>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;padding:11px 14px;border:1px solid var(--line,rgba(27,23,18,.08));border-radius:14px;color:var(--sub,rgba(27,23,18,.55));font-size:13px;margin-bottom:4px">⌕ {{ t.searchCity }}</div>
+      <div style="display:flex;gap:10px;align-items:center;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08));color:var(--accent,#c37a2c);font-weight:600;font-size:14px;cursor:pointer">◉ {{ t.useMyLoc }}</div>
+      <sc-for list="{{ locs }}" as="l" hint-placeholder-count="4">
+        <div onClick="{{ selectLoc }}" data-idx="{{ $index }}" style="display:flex;justify-content:space-between;align-items:center;padding:14px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08));cursor:pointer">
+          <span style="display:flex;gap:10px;align-items:center;font-weight:600;font-size:14px"><span style="opacity:.45">◎</span>{{ l.name }}</span>
+          <sc-if value="{{ l.isSel }}" hint-placeholder-val="{{ false }}"><span style="color:#e0913a;font-weight:800">✓</span></sc-if>
+        </div>
+      </sc-for>
+      <div onClick="{{ addLocClick }}" style="display:flex;justify-content:space-between;align-items:center;padding:15px 0 2px;cursor:pointer"><span style="display:flex;gap:10px;align-items:center;color:var(--sub,rgba(27,23,18,.55));font-weight:600;font-size:14px">＋ {{ t.addLoc }}</span><sc-if value="{{ isFree }}" hint-placeholder-val="{{ false }}"><svg viewBox="0 0 20 20" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" style="color:var(--sub,rgba(27,23,18,.55))"><rect x="4.5" y="9" width="11" height="8" rx="2"></rect><path d="M7 9V6.5a3 3 0 0 1 6 0V9"></path></svg></sc-if></div>
+    </div>
+  </sc-if>
+
+  <!-- Paywall sheet -->
+  <sc-if value="{{ showPaywall }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ closePaywall }}" style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:46;background:rgba(10,8,10,.45)"></div>
+    <div style="position:absolute;bottom:0;left:0;right:0;z-index:47;background:var(--bg,#f6f1e8);border-radius:26px 26px 0 0;padding:22px 26px 26px;color:var(--ink,#1b1712)">
+      <div style="width:38px;height:4px;border-radius:2px;background:var(--line,rgba(27,23,18,.12));margin:0 auto 16px"></div>
+      <div style="display:flex;align-items:center;gap:8px;font-weight:700;font-size:19px"><span style="width:16px;height:16px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 2.5px rgba(255,236,190,.6);transform:translateY(1px)"></span>{{ pwBrand }}</div>
+      <div style="margin-top:6px;font-size:13px;color:var(--sub,rgba(27,23,18,.55))">{{ t.pwSub }}</div>
+      <div style="margin-top:16px;display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.pwF1 }}</div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.pwF2 }}</div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.pwF3 }}</div>
+        <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.widgets }}</div>
+      </div>
+      <div style="display:flex;gap:10px;margin-top:18px">
+        <div onClick="{{ setPayYr }}" style="flex:1;border:1.5px solid var(--line,rgba(27,23,18,.12));border-radius:16px;padding:12px 14px;cursor:pointer;position:relative">
+          <sc-if value="{{ paySelYr }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:-1.5px;left:-1.5px;right:-1.5px;bottom:-1.5px;border:1.5px solid #e0913a;border-radius:16px;pointer-events:none"></div></sc-if>
+          <div style="font-weight:700;font-size:14px">{{ t.pwYr }}</div><div style="font-size:11px;color:var(--accent,#c37a2c);font-weight:600;margin-top:2px">{{ t.pwYrNote }}</div>
+        </div>
+        <div onClick="{{ setPayMo }}" style="flex:1;border:1.5px solid var(--line,rgba(27,23,18,.12));border-radius:16px;padding:12px 14px;cursor:pointer;position:relative">
+          <sc-if value="{{ paySelMo }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:-1.5px;left:-1.5px;right:-1.5px;bottom:-1.5px;border:1.5px solid #e0913a;border-radius:16px;pointer-events:none"></div></sc-if>
+          <div style="font-weight:700;font-size:14px">{{ t.pwMo }}</div><div style="font-size:11px;color:var(--sub,rgba(27,23,18,.55));font-weight:600;margin-top:2px"> </div>
+        </div>
+      </div>
+      <button onClick="{{ payCta }}" style="width:100%;margin-top:16px;height:52px;border-radius:999px;background:#e0913a;color:#fff;border:none;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit">{{ t.pwCta }}</button>
+      <div style="text-align:center;margin-top:12px;font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.pwRestore }}</div>
+    </div>
+  </sc-if>
+
+  <!-- Full settings -->
+  <sc-if value="{{ isSettings }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:45;background:var(--bg,#f6f1e8);color:var(--ink,#1b1712);overflow-y:auto;padding:60px 24px 44px">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <span style="font-weight:700;font-size:22px">{{ t.settings }}</span>
+        <button onClick="{{ closeFullSettings }}" style="border:none;background:var(--card,rgba(27,23,18,.06));color:var(--accent,#c37a2c);font-weight:700;font-size:12.5px;cursor:pointer;padding:9px 16px;border-radius:999px;font-family:inherit">{{ t.done }}</button>
+      </div>
+
+      <div style="margin-top:24px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--sub,rgba(27,23,18,.55))">{{ t.secAccount }}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.account }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.accountVal }}</span></span><span style="color:var(--sub,rgba(27,23,18,.55))">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.plan }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ planLabel }}</span></span><sc-if value="{{ notPro }}" hint-placeholder-val="{{ false }}"><button onClick="{{ openPaywall }}" style="padding:9px 16px;border-radius:999px;border:none;background:#e0913a;color:#fff;font-weight:700;font-size:12.5px;cursor:pointer;font-family:inherit">{{ t.upgrade }}</button></sc-if></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.manageSub }}</span><span style="color:var(--sub,rgba(27,23,18,.55))">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.restore }}</span><span style="color:var(--sub,rgba(27,23,18,.55))">›</span></div>
+
+      <div style="margin-top:26px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--sub,rgba(27,23,18,.55))">{{ t.secAlarm }}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.smartAlarm }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.smartAlarmSub }}</span></span><div onClick="{{ toggleSmart }}" style="width:42px;height:25px;border-radius:999px;background:{{ tSmart.bg }};position:relative;cursor:pointer;transition:background .2s;flex:none"><div style="position:absolute;top:2.5px;left:2.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:transform .2s;transform:{{ tSmart.tx }}"></div></div></div>
+      <div style="padding:14px 0 6px;border-bottom:1px solid var(--line,rgba(27,23,18,.08))">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:600;font-size:14px">{{ t.threshold }}</span><span style="font-weight:700;font-size:15px;color:var(--accent,#c37a2c)">70</span></div>
+        <div style="height:8px;border-radius:4px;background:var(--card,rgba(27,23,18,.05));position:relative;margin-top:12px"><div style="position:absolute;left:0;top:0;bottom:0;width:70%;border-radius:4px;background:linear-gradient(90deg,#8a90b0,#f9a55c,#ffd27a)"></div><div style="position:absolute;left:70%;top:50%;transform:translate(-50%,-50%);width:22px;height:22px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.3)"></div></div>
+        <div style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55));margin:9px 0 8px">{{ t.thresholdCap }}</div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.wakeWindow }}</span><span style="display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.wakeWindowVal }}<span>›</span></span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.sound }}</span><span style="display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.soundVal }}<span>›</span></span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.weekend }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.weekendSub }}</span></span><div onClick="{{ toggleWeekend }}" style="width:42px;height:25px;border-radius:999px;background:{{ tWeekend.bg }};position:relative;cursor:pointer;transition:background .2s;flex:none"><div style="position:absolute;top:2.5px;left:2.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:transform .2s;transform:{{ tWeekend.tx }}"></div></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="display:flex;flex-direction:column;gap:2px"><span style="font-weight:600;font-size:14px">{{ t.sunsetAl }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.sunsetAlSub }}</span></span><div onClick="{{ toggleSunset }}" style="width:42px;height:25px;border-radius:999px;background:{{ tSunset.bg }};position:relative;cursor:pointer;transition:background .2s;flex:none"><div style="position:absolute;top:2.5px;left:2.5px;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.25);transition:transform .2s;transform:{{ tSunset.tx }}"></div></div></div>
+
+      <div style="margin-top:26px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--sub,rgba(27,23,18,.55))">{{ t.secAppearance }}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.theme }}</span><div style="display:flex;gap:8px"><button onClick="{{ setThemeLight }}" style="padding:9px 14px;border-radius:999px;border:1px solid var(--line,rgba(27,23,18,.12));background:var(--card,rgba(27,23,18,.05));color:var(--ink,#1b1712);font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit">{{ t.light }}<sc-if value="{{ themeIsLight }}" hint-placeholder-val="{{ true }}"> ✓</sc-if></button><button onClick="{{ setThemeDark }}" style="padding:9px 14px;border-radius:999px;border:1px solid var(--line,rgba(27,23,18,.12));background:var(--card,rgba(27,23,18,.05));color:var(--ink,#1b1712);font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit">{{ t.dark }}<sc-if value="{{ themeIsDark }}" hint-placeholder-val="{{ false }}"> ✓</sc-if></button></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.language }}</span><div style="display:flex;gap:8px"><button onClick="{{ setLangEn }}" style="padding:9px 14px;border-radius:999px;border:1px solid var(--line,rgba(27,23,18,.12));background:var(--card,rgba(27,23,18,.05));color:var(--ink,#1b1712);font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit">English<sc-if value="{{ langIsEn }}" hint-placeholder-val="{{ true }}"> ✓</sc-if></button><button onClick="{{ setLangJa }}" style="padding:9px 14px;border-radius:999px;border:1px solid var(--line,rgba(27,23,18,.12));background:var(--card,rgba(27,23,18,.05));color:var(--ink,#1b1712);font-weight:600;font-size:12.5px;cursor:pointer;font-family:inherit">日本語<sc-if value="{{ langIsJa }}" hint-placeholder-val="{{ false }}"> ✓</sc-if></button></div></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.appIcon }}</span><div style="display:flex;gap:10px">
+        <div onClick="{{ selectIcon }}" data-idx="0" style="width:30px;height:30px;border-radius:8px;background:#f6f1e8;border:1px solid rgba(27,23,18,.12);cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center"><span style="width:19px;height:19px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 3px rgba(255,236,190,.6)"></span><sc-if value="{{ icon0 }}" hint-placeholder-val="{{ true }}"><div style="position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;border:2px solid #e0913a;border-radius:12px"></div></sc-if></div>
+        <div onClick="{{ selectIcon }}" data-idx="1" style="width:30px;height:30px;border-radius:8px;background:#1b1712;cursor:pointer;position:relative;display:flex;align-items:center;justify-content:center"><span style="width:19px;height:19px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 3px rgba(255,236,190,.6)"></span><sc-if value="{{ icon1 }}" hint-placeholder-val="{{ false }}"><div style="position:absolute;top:-5px;left:-5px;right:-5px;bottom:-5px;border:2px solid #e0913a;border-radius:12px"></div></sc-if></div>
+      </div></div>
+      <div onClick="{{ widgetsClick }}" style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08));cursor:pointer"><span style="display:flex;gap:8px;align-items:center;font-weight:600;font-size:14px">{{ t.widgets }}<span style="padding:2px 8px;border-radius:999px;background:#e0913a;color:#fff;font-size:9.5px;font-weight:800;letter-spacing:.05em">PRO</span></span><span style="color:var(--sub,rgba(27,23,18,.55))">›</span></div>
+
+      <div style="margin-top:26px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--sub,rgba(27,23,18,.55))">{{ t.secData }}</div>
+      <div style="padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))">
+        <div style="display:flex;justify-content:space-between;align-items:baseline"><span style="font-weight:600;font-size:14px">{{ t.credits }}</span><span style="font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.creditsSub }}</span></div>
+        <div style="height:6px;border-radius:3px;background:var(--card,rgba(27,23,18,.05));margin-top:10px;overflow:hidden"><div style="width:70%;height:100%;border-radius:3px;background:#e0913a"></div></div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.notifications }}</span><span style="color:var(--sub,rgba(27,23,18,.55))">›</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.locAccess }}</span><span style="display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.locAccessVal }}<span>›</span></span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.dataControls }}</span><span style="display:flex;gap:8px;align-items:center;font-size:12.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.dataControlsVal }}<span>›</span></span></div>
+
+      <div style="margin-top:26px;font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;font-weight:700;color:var(--sub,rgba(27,23,18,.55))">{{ t.secAbout }}</div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.terms }}</span><span style="font-size:12px;color:var(--sub,rgba(27,23,18,.55))">↗</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0;border-bottom:1px solid var(--line,rgba(27,23,18,.08))"><span style="font-weight:600;font-size:14px">{{ t.privacy }}</span><span style="font-size:12px;color:var(--sub,rgba(27,23,18,.55))">↗</span></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:13px 0"><span style="font-weight:600;font-size:14px">{{ t.version }}</span><span style="font-size:12.5px;color:var(--sub,rgba(27,23,18,.55))">0.9.2 (prototype)</span></div>
+    </div>
+  </sc-if>
+
+  <!-- Onboarding -->
+  <sc-if value="{{ isOnboarding }}" hint-placeholder-val="{{ false }}">
+    <div style="position:absolute;top:0;left:0;right:0;bottom:0;z-index:50;background:var(--bg,#f6f1e8);color:var(--ink,#1b1712);display:flex;flex-direction:column;padding:64px 30px 34px">
+      <div style="display:flex;justify-content:center;gap:7px">
+        <span style="width:7px;height:7px;border-radius:50%;background:#e0913a;opacity:{{ obD0 }}"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e0913a;opacity:{{ obD1 }}"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e0913a;opacity:{{ obD2 }}"></span>
+        <span style="width:7px;height:7px;border-radius:50%;background:#e0913a;opacity:{{ obD3 }}"></span>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center">
+        <sc-if value="{{ ob0 }}" hint-placeholder-val="{{ true }}">
+          <span style="width:72px;height:72px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 5px rgba(255,236,190,.6)"></span>
+          <div style="margin-top:14px;font-weight:600;font-size:{{ brandSizeBig }};letter-spacing:{{ brandSpace }};display:flex;align-items:center;gap:9px">{{ brandName }}</div>
+          <div style="margin-top:20px;font-weight:700;font-size:21px;line-height:1.3;max-width:270px">{{ t.ob1t }}</div>
+          <div style="margin-top:12px;font-size:13.5px;line-height:1.6;color:var(--sub,rgba(27,23,18,.55));max-width:280px">{{ t.ob1s }}</div>
+        </sc-if>
+        <sc-if value="{{ ob1 }}" hint-placeholder-val="{{ false }}">
+          <div style="font-weight:700;font-size:21px;line-height:1.3;max-width:280px">{{ t.ob2t }}</div>
+          <div style="margin-top:22px;width:100%;max-width:290px;display:flex;align-items:center;gap:10px;background:var(--card,rgba(27,23,18,.05));border:1.5px solid #e0913a;border-radius:18px;padding:16px 20px;font-weight:700;font-size:15px;color:var(--accent,#c37a2c)">◉ {{ t.useMyLoc }}</div>
+          <div style="margin-top:10px;width:100%;max-width:290px;display:flex;align-items:center;gap:10px;border:1px solid var(--line,rgba(27,23,18,.08));border-radius:18px;padding:16px 20px;font-size:14px;color:var(--sub,rgba(27,23,18,.55))">⌕ {{ t.searchCity }}</div>
+          <div style="margin-top:14px;font-size:13px;line-height:1.6;color:var(--sub,rgba(27,23,18,.55));max-width:280px">{{ t.ob2s }}</div>
+        </sc-if>
+        <sc-if value="{{ ob2 }}" hint-placeholder-val="{{ false }}">
+          <div style="width:100%;max-width:300px;background:var(--card,rgba(27,23,18,.05));border:1px solid var(--line,rgba(27,23,18,.08));border-radius:18px;padding:14px 16px;text-align:left">
+            <div style="display:flex;gap:8px;align-items:center"><span style="width:14px;height:14px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 2.5px rgba(255,236,190,.6)"></span><span style="font-weight:700;font-size:12px">{{ brandName }}</span><span style="margin-left:auto;font-size:10.5px;color:var(--sub,rgba(27,23,18,.55))">21:30</span></div>
+            <div style="margin-top:8px;font-size:12.5px;line-height:1.5;font-weight:500">{{ t.obNotif }}</div>
+            <div style="display:flex;gap:8px;margin-top:10px"><span style="flex:1;text-align:center;padding:8px 0;border-radius:10px;background:#e0913a;color:#fff;font-weight:700;font-size:11.5px">{{ t.obWake }}</span><span style="flex:1;text-align:center;padding:8px 0;border-radius:10px;background:var(--line,rgba(27,23,18,.08));font-weight:700;font-size:11.5px;color:var(--sub,rgba(27,23,18,.55))">{{ t.skip }}</span></div>
+          </div>
+          <div style="margin-top:24px;font-weight:700;font-size:21px;line-height:1.3;max-width:280px">{{ t.ob3t }}</div>
+          <div style="margin-top:12px;font-size:13.5px;line-height:1.6;color:var(--sub,rgba(27,23,18,.55));max-width:280px">{{ t.ob3s }}</div>
+        </sc-if>
+        <sc-if value="{{ ob3 }}" hint-placeholder-val="{{ false }}">
+          <span style="width:56px;height:56px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 4px rgba(255,236,190,.6)"></span>
+          <div style="margin-top:16px;font-weight:700;font-size:21px">{{ pwBrand }}</div>
+          <div style="margin-top:10px;font-size:13.5px;line-height:1.6;color:var(--sub,rgba(27,23,18,.55));max-width:280px">{{ t.pwSub }}</div>
+          <div style="margin-top:18px;display:flex;flex-direction:column;gap:9px;text-align:left">
+            <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.pwF1 }}</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.pwF2 }}</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.pwF3 }}</div>
+            <div style="display:flex;gap:10px;align-items:center;font-size:13px;font-weight:500"><span style="width:6px;height:6px;border-radius:50%;background:#e0913a;flex:none"></span>{{ t.widgets }}</div>
+          </div>
+          <div style="margin-top:16px;font-size:12px;color:var(--sub,rgba(27,23,18,.55))">{{ t.pwObNote }}</div>
+        </sc-if>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <button onClick="{{ obNext }}" style="height:54px;border-radius:999px;background:#e0913a;color:#fff;border:none;font-weight:700;font-size:15px;cursor:pointer;font-family:inherit">{{ obBtn }}</button>
+        <button onClick="{{ obSkip }}" style="background:none;border:none;color:var(--sub,rgba(27,23,18,.55));font-weight:600;font-size:12.5px;cursor:pointer;padding:10px;font-family:inherit">{{ t.skip }}</button>
+      </div>
+    </div>
+  </sc-if>
+
+</div>
+</div>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:760,&quot;height&quot;:940},&quot;language&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;en&quot;,&quot;ja&quot;],&quot;default&quot;:&quot;en&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;App&quot;},&quot;theme&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;light&quot;,&quot;dark&quot;],&quot;default&quot;:&quot;dark&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;App&quot;},&quot;plan&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;trial&quot;,&quot;free&quot;,&quot;pro&quot;],&quot;default&quot;:&quot;pro&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;App&quot;},&quot;startOnOnboarding&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;App&quot;},&quot;clockTime&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;4:53&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;App&quot;}}">
+class Component extends DCLogic {
+  state = { view: null, day: 0, previewEvt: null, theme: null, lang: null, ob: 0, showSettings: false, showCalendar: false, ana: {}, loc: 0, showLoc: false, showPaywall: false, paySel: 'yr', plan: null, smartAlarm: true, weekend: false, sunsetAl: false, appIcon: 0, showCalInfo: false, armed: {} };
+
+  genAnalysis(idx, langOv) {
+    const i = idx == null ? this.state.day : idx;
+    const lang = langOv || this.state.lang || (this.props || {}).language || 'en';
+    const ja = lang === 'ja';
+    const key = i + (ja ? 'j' : 'e');
+    if ((this.state.ana || {})[key] || (this._pend || {})[key]) return;
+    if (!(window.claude && window.claude.complete)) return;
+    (this._pend = this._pend || {})[key] = 1;
+    const d = (this._days || [])[i];
+    if (!d) return;
+    const prompt = 'You are the colour analyst inside a sunrise-forecast app. Forecast for ' + d.dow + ': quality score ' + d.q + '/100, condition "' + d.type + '", cloud cover ' + d.cloud + ', UV ' + d.uv + ', sunrise ' + d.sunrise + ', golden hour ' + d.golden + '. In ' + (ja ? 'Japanese' : 'English') + ', write one short sentence (under 18 words) about the colours to expect. Plain-spoken and calm, no flowery or dramatic language. Plain text only, no preamble.';
+    window.claude.complete(prompt).then((txt) => {
+      if (typeof txt === 'string' && txt.trim()) this.setState(s => ({ ana: Object.assign({}, s.ana, { [key]: txt.trim() }) }));
+    }).catch(() => {});
+  }
+
+  renderVals() {
+    const P = this.props || {};
+    const lang = this.state.lang ?? P.language ?? 'en';
+    const theme = this.state.theme ?? P.theme ?? 'light';
+    const view = this.state.view ?? (P.startOnOnboarding ? 'onboarding' : 'home');
+    const plan = this.state.plan ?? P.plan ?? 'trial';
+    const ja = lang === 'ja';
+    const VIVID = 'linear-gradient(90deg,#6e7f99,#a68aa0,#de8d7d,#f9a55c,#ffd27a)';
+    const DAYS = [
+      { dow:'Today', dj:'今日', type:'vivid', q:96, en:'Exceptional', jl:'絶好', sunrise:'5:51', firstLight:'5:14', golden:'5:24–6:08', blueEnd:'6:22', cnt:53, daylight:'12h 53m', goldenPM:'17:58–18:44', sunset:'18:44', cloud:'18%', uv:'2', ramp:VIVID, dot:'#ffd27a' },
+      { dow:'Wed', dj:'水', type:'clear', q:88, en:'Clear', jl:'快晴', sunrise:'5:52', firstLight:'5:15', golden:'5:25–6:09', blueEnd:'6:23', daylight:'12h 51m', goldenPM:'17:57–18:43', sunset:'18:43', cloud:'6%', uv:'3', ramp:'linear-gradient(90deg,#2e4157,#748ba0,#dcc68f,#f7a844,#ffe9ac)', dot:'#f0b656' },
+      { dow:'Thu', dj:'木', type:'overcast', q:31, en:'Overcast', jl:'曇天', sunrise:'5:53', firstLight:'5:16', golden:'5:26–6:10', blueEnd:'6:24', daylight:'12h 49m', goldenPM:'17:56–18:42', sunset:'18:42', cloud:'94%', uv:'1', ramp:'linear-gradient(90deg,#9791a6,#b6a5b6,#c9adb4,#eebd80,#f4a94f)', dot:'#b6a5b6' },
+      { dow:'Fri', dj:'金', type:'pastel', q:74, en:'Partly clear', jl:'晴れ間', sunrise:'5:54', firstLight:'5:17', golden:'5:27–6:11', blueEnd:'6:25', daylight:'12h 47m', goldenPM:'17:55–18:41', sunset:'18:41', cloud:'28%', uv:'2', ramp:'linear-gradient(90deg,#46536e,#8b96ab,#d9c9a0,#ffd98a)', dot:'#ffd98a' },
+      { dow:'Sat', dj:'土', type:'vivid', q:91, en:'Vivid', jl:'鮮烈', sunrise:'5:55', firstLight:'5:18', golden:'5:28–6:12', blueEnd:'6:26', daylight:'12h 45m', goldenPM:'17:54–18:40', sunset:'18:40', cloud:'42%', uv:'2', ramp:VIVID, dot:'#f9a55c' },
+      { dow:'Sun', dj:'日', type:'muted', q:52, en:'Poor visibility', jl:'視界不良', sunrise:'5:56', firstLight:'5:19', golden:'5:29–6:13', blueEnd:'6:27', daylight:'12h 43m', goldenPM:'17:53–18:39', sunset:'18:39', cloud:'68%', uv:'1', ramp:'linear-gradient(90deg,#5a6474,#8a8ea0,#b5a8a2,#d9b183)', dot:'#8a90b0' },
+      { dow:'Mon', dj:'月', type:'clear', q:83, en:'Clear', jl:'快晴', sunrise:'5:57', firstLight:'5:20', golden:'5:30–6:14', blueEnd:'6:28', daylight:'12h 41m', goldenPM:'17:52–18:38', sunset:'18:38', cloud:'10%', uv:'3', ramp:'linear-gradient(90deg,#2e4157,#748ba0,#dcc68f,#f7a844,#ffe9ac)', dot:'#f0a95e' }
+    ];
+    this._days = DAYS;
+    const en = {
+      sunrise:'Sunrise', firstLight:'First light', golden:'Golden hour', blueEnd:'Blue hour ends', predicted:'Predicted colour',
+      notVisible:'', settings:'Settings', theme:'Theme', light:'Light', dark:'Dark', language:'Language',
+      done:'Done', colourHour:'Colour through the hour', goldenCard:'Golden hour', cloud:'Cloud', analysisTitle:'Colour analysis',
+      threshold:'Suggestion threshold', thresholdCap:'We suggest mornings above this. Alarms only ring when you set them.',
+      ob1t:'Never miss a beautiful sunrise', ob1s:'Sunlight predicts how visible — and how colourful — your local sunrise will be, up to 7 days ahead.',
+      ob2t:'Where will you watch from?', ob2s:'We simulate the exact sky for your spot using live atmospheric data.',
+      ob3t:'We suggest — you choose', ob3s:'The evening before a promising sunrise you get a heads-up. The alarm only rings for mornings you arm.',
+      obNotif:'Tomorrow looks like an 88 — sunrise 5:51. Wake up for it?', obWake:'Wake me', wakeMe:'Wake me', wakeSet:'Alarm set ✓', remindMe:'Remind me', remindSet:'Reminder set ✓',
+      next:'Continue', start:'Start watching the sky', skip:'Skip',
+      calTitle:'This week', confHigh:'High confidence', confMed:'Medium confidence', confLow:'Low confidence', aboutForecasts:'About our forecasts',
+      calNote:'Forecasts sharpen as the morning approaches — we refresh each day’s score and colours as atmospheric data becomes clearer, so confidence rises the closer you get.',
+      anaVivid:'Mauve into deep coral, peaking gold low in the east just before the rise.',
+      anaClear:'Little cloud to catch colour, but the haze will deepen the golds — a long amber afterglow.',
+      anaOvercast:'A closed lid this morning. At most a brief, muted flush at the horizon.',
+      anaPastel:'Soft, diffused light — quiet pinks and golds, loveliest just after first light.',
+      anaMuted:'A narrow window through heavy cloud; perhaps one warm flush at the seam.',
+      daylight:'Daylight', sunset:'Sunset', goldenPM:'Golden hour', locations:'Locations', addLoc:'Add location',
+      plan:'Plan', planTrial:'Free trial · 5 days left', planFree:'Free plan', planPro:'Pro', upgrade:'Upgrade', manageSub:'Manage subscription',
+      pwSub:'See the whole week coming.', pwF1:'Full 7-day colour forecast', pwF2:'One-tap wake-ups for promising mornings', pwF3:'Colour analysis every morning',
+      pwYr:'$19.99 / year', pwYrNote:'2 months free', pwMo:'$1.99 / month', pwCta:'Start 7-day free trial', pwRestore:'Restore purchase · Terms · Privacy', pwObNote:'Free for 7 mornings, then $19.99 / year.',
+      useMyLoc:'Use my location', searchCity:'Search city…', widgets:'Home-screen widgets',
+      allSettings:'All settings', account:'Account', accountVal:'kazuki@youki.app', restore:'Restore purchase',
+      secAccount:'Account & subscription', secAlarm:'Alarm', secAppearance:'Appearance', secData:'Data & privacy', secAbout:'About',
+      smartAlarm:'Morning suggestions', smartAlarmSub:'Evening heads-up when tomorrow looks good', weekend:'Weekend lie-in', weekendSub:'No alarms on Sat & Sun',
+      sunsetAl:'Sunset alerts', sunsetAlSub:'Evening golden hour reminders', wakeWindow:'Wake timing', wakeWindowVal:'Golden hour start', sound:'Sound', soundVal:'Dawn chorus',
+      appIcon:'App icon', credits:'AI analysis credits', creditsSub:'42 of 60 left this month', notifications:'Notifications',
+      locAccess:'Location access', locAccessVal:'While using', dataControls:'Data controls', dataControlsVal:'Export · Delete',
+      terms:'Terms of service', privacy:'Privacy policy', version:'Version'
+    };
+    const jp = {
+      sunrise:'日の出', firstLight:'薄明', golden:'ゴールデンアワー', blueEnd:'ブルーアワー終了', predicted:'予想される色',
+      notVisible:'', settings:'設定', theme:'テーマ', light:'ライト', dark:'ダーク', language:'言語',
+      done:'完了', colourHour:'時間ごとの色', goldenCard:'ゴールデンアワー', cloud:'雲量', analysisTitle:'色の分析',
+      threshold:'提案のしきい値', thresholdCap:'この値以上の朝を提案します。アラームは設定した朝だけ鳴ります。',
+      ob1t:'美しい朝焼けを、逃さない', ob1s:'ようきは、あなたの街の日の出の見えやすさと色づきを最大7日先まで予測します。',
+      ob2t:'どこから眺めますか？', ob2s:'大気データからその場所の空を正確にシミュレーションします。',
+      ob3t:'提案はアプリ、決めるのはあなた', ob3s:'期待できる朝の前夜にお知らせが届きます。アラームはあなたが設定した朝だけ鳴ります。',
+      obNotif:'明日は88点の予想 — 日の出5:51。起きてみますか？', obWake:'起こして', wakeMe:'起こして', wakeSet:'アラーム設定済 ✓', remindMe:'知らせて', remindSet:'通知設定済 ✓',
+      next:'次へ', start:'空を見守りはじめる', skip:'スキップ',
+      calTitle:'今週', confHigh:'高信頼度', confMed:'中信頼度', confLow:'低信頼度', aboutForecasts:'予報について',
+      calNote:'予報は朝が近づくほど精度が上がります。大気データが鮮明になるにつれて、各日のスコアと色を更新していきます。',
+      anaVivid:'モーブから深い珊瑚色へ。日の出直前、東の低空で金色のピークを。',
+      anaClear:'雲は少なめ、霘が金色を深めます。長い残照に期待。',
+      anaOvercast:'今朝は厚い雲。地平線にごく短い色づきがあるかどうか。',
+      anaPastel:'柔らかく拡散した光。淡いピンクと金色は薄明直後が見頃。',
+      anaMuted:'厚い雲の切れ間に、ひと差しの暖色があるかもしれません。',
+      daylight:'日照時間', sunset:'日の入り', goldenPM:'ゴールデンアワー', locations:'場所', addLoc:'場所を追加',
+      plan:'プラン', planTrial:'無料トライアル・残り5日', planFree:'無料プラン', planPro:'Pro', upgrade:'アップグレード', manageSub:'サブスクリプション管理',
+      pwSub:'一週間先の空まで、見えるように。', pwF1:'7日間の色予報をすべて', pwF2:'期待できる朝へのワンタップアラーム', pwF3:'毎朝の色の分析',
+      pwYr:'¥2,800 / 年', pwYrNote:'2ヶ月分お得', pwMo:'¥280 / 月', pwCta:'7日間無料で始める', pwRestore:'購入を復元・利用規約・プライバシー', pwObNote:'7日間無料、その後 ¥2,800 / 年。',
+      useMyLoc:'現在地を使う', searchCity:'都市を検索…', widgets:'ホーム画面ウィジェット',
+      allSettings:'すべての設定', account:'アカウント', accountVal:'kazuki@youki.app', restore:'購入を復元',
+      secAccount:'アカウントとサブスクリプション', secAlarm:'アラーム', secAppearance:'外観', secData:'データとプライバシー', secAbout:'このアプリについて',
+      smartAlarm:'朝の提案', smartAlarmSub:'期待できる前夜にお知らせ', weekend:'週末はお休み', weekendSub:'土日はアラームなし',
+      sunsetAl:'夕焼け通知', sunsetAlSub:'夕方のゴールデンアワーをお知らせ', wakeWindow:'起こすタイミング', wakeWindowVal:'ゴールデンアワー開始', sound:'サウンド', soundVal:'夜明けのコーラス',
+      appIcon:'アプリアイコン', credits:'AI分析クレジット', creditsSub:'今月 残り42/60回', notifications:'通知',
+      locAccess:'位置情報', locAccessVal:'使用中のみ', dataControls:'データ管理', dataControlsVal:'書き出し・削除',
+      terms:'利用規約', privacy:'プライバシーポリシー', version:'バージョン'
+    };
+    const t = ja ? jp : en;
+    const clock = this.props.clockTime ?? '4:53';
+    const sel = DAYS[this.state.day];
+    const day = {
+      ...sel,
+      qs: String(sel.q),
+      label: ja ? sel.jl : sel.en,
+      isVivid: sel.type === 'vivid', isClear: sel.type === 'clear', isOvercast: sel.type === 'overcast',
+      isPastel: sel.type === 'pastel', isMuted: sel.type === 'muted',
+      scoreOp: sel.q < 50 ? .5 : 1, rampOp: sel.type === 'overcast' ? .55 : 1,
+      cloudUv: sel.cloud + ' · ' + sel.uv,
+      riseLine: t.sunrise + (sel.type === 'overcast' ? (ja ? '・雲の奥' : ' · behind cloud') : ''),
+      riseSub: '', eventTime: sel.sunrise
+    };
+    // Milestone preview: tapping a row projects that moment's sky + shifts the next-event stack
+    const toMin = (s) => { const p = String(s).split(':'); return (+p[0]) * 60 + (+p[1]); };
+    const pv = this.state.previewEvt;
+    const goldenStart = sel.golden.split('–')[0], goldenPMStart = sel.goldenPM.split('–')[0];
+    const EVT = { firstLight: sel.firstLight, golden: goldenStart, sunrise: sel.sunrise, daylight: '12:30', goldenPM: goldenPMStart, sunset: sel.sunset };
+    const pick = (k) => () => this.setState(s => ({ previewEvt: s.previewEvt === k ? null : k }));
+    const evBg = {};
+    Object.keys(EVT).forEach(k => { evBg[k] = pv === k ? 'var(--card,rgba(27,23,18,.05))' : 'transparent'; });
+    const good = sel.type !== 'overcast' && sel.type !== 'muted';
+    const SKIES = {
+      firstLight: { g: 'linear-gradient(180deg,#17233a 0%,#26344e 30%,#41506a 58%,#7c7484 82%,#c39d68 100%)', b: 'linear-gradient(180deg,#232733 0%,#383e4d 32%,#565c6b 60%,#82828c 84%,#a3967f 100%)', gb: '-84px', go: .3 },
+      golden: { g: 'linear-gradient(180deg,#4a5e7d 0%,#8d7f96 28%,#d98f75 56%,#ffb45e 80%,#ffd98a 100%)', b: 'linear-gradient(180deg,#8f8ba0 0%,#a99fae 34%,#c3aaa8 60%,#e8b87e 84%,#f2a952 100%)', gb: '-64px', go: 1 },
+      daylight: { g: 'linear-gradient(180deg,#3d7ec4 0%,#6ba3d8 34%,#a8cbe8 62%,#d8e8f2 84%,#eef2ec 100%)', b: 'linear-gradient(180deg,#8b95a3 0%,#a5adb8 30%,#c2c7cd 58%,#d9dbdb 82%,#e6e2d9 100%)', gb: '52%', go: good ? .8 : 0 },
+      goldenPM: { g: 'linear-gradient(180deg,#5b7396 0%,#9d86a2 28%,#e0956f 56%,#ffae54 80%,#ffd27a 100%)', b: 'linear-gradient(180deg,#7d8398 0%,#9b96a4 32%,#bfa393 58%,#dba76c 82%,#e69a4e 100%)', gb: '-64px', go: .95 },
+      sunset: { g: 'linear-gradient(180deg,#2e3d5c 0%,#5c5a86 28%,#a86a8a 54%,#e87e5f 78%,#ff9e46 100%)', b: 'linear-gradient(180deg,#3e4457 0%,#5f6274 32%,#837a84 58%,#a88a78 82%,#c08858 100%)', gb: '-72px', go: .7 }
+    };
+    const pvC = (pv && pv !== 'sunrise') ? SKIES[pv] : null;
+    const pvSky = pvC ? (good ? pvC.g : pvC.b) : 'transparent';
+    const pvOp = pvC ? 1 : 0;
+    const pvGlowB = pvC ? pvC.gb : '-70px';
+    const pvGlowOp = pvC ? pvC.go : 0;
+    // Event-adjusted stack: next milestone + countdown from the (previewed) clock time
+    const now = pv ? toMin(EVT[pv]) : toMin(clock);
+    if (this.state.day === 0 || pv) {
+      const events = [
+        [sel.firstLight, t.firstLight], [goldenStart, t.golden], [sel.sunrise, t.sunrise],
+        [goldenPMStart, t.goldenPM], [sel.sunset, t.sunset]
+      ];
+      let next = events.find(e => toMin(e[0]) > now), d;
+      if (next) { d = toMin(next[0]) - now; }
+      else { next = [sel.firstLight, t.firstLight]; d = toMin(sel.firstLight) + 1440 - now; }
+      const dur = d < 60 ? (ja ? 'あと' + d + '分' : 'in ' + d + ' min')
+        : (ja ? 'あと' + Math.floor(d / 60) + '時間' + (d % 60 ? d % 60 + '分' : '') : 'in ' + Math.floor(d / 60) + 'h' + (d % 60 ? ' ' + (d % 60) + 'm' : ''));
+      day.eventTime = next[0];
+      day.riseLine = next[1] + (sel.type === 'overcast' && next[1] === t.sunrise ? (ja ? '・雲の奥' : ' · behind cloud') : '');
+      day.riseSub = dur;
+    }
+    const days = DAYS.map((d, i) => ({
+      ...d, isSel: i === this.state.day, qs: String(d.q),
+      name: i === 0 ? (ja ? '今日' : 'Today') : (ja ? d.dj : d.dow),
+      date: ja ? '7月' + (15 + i) + '日' : 'Jul ' + (15 + i),
+      label: ja ? d.jl : d.en,
+      conf: i < 3 ? t.confHigh : (i < 5 ? t.confMed : t.confLow),
+      locked: plan === 'free' && i >= 2, unlocked: !(plan === 'free' && i >= 2),
+      lockAttr: plan === 'free' && i >= 2 ? '1' : '', rowOp: plan === 'free' && i >= 2 ? .55 : 1,
+      dotOp: i === this.state.day ? 1 : .6,
+      armed: !!this.state.armed[i]
+    }));
+    const anaMap = { vivid: t.anaVivid, clear: t.anaClear, overcast: t.anaOvercast, pastel: t.anaPastel, muted: t.anaMuted };
+    const analysisText = (this.state.ana && this.state.ana[this.state.day + (ja ? 'j' : 'e')]) || anaMap[sel.type];
+    const LOCS = [{ en: 'Yokohama', ja: '横浜' }, { en: 'Tokyo', ja: '東京' }, { en: 'Kamakura', ja: '鎌倉' }, { en: 'Hakone', ja: '箱根' }];
+    const locs = LOCS.map((l, i) => ({ name: ja ? l.ja : l.en, isSel: i === this.state.loc }));
+    const mkT = (on) => ({ bg: on ? '#e0913a' : 'var(--line,rgba(27,23,18,.12))', tx: on ? 'translateX(17px)' : 'none' });
+    const themeVars = theme === 'dark'
+      ? '--bg:#141110;--ink:#f3ece1;--sub:rgba(243,236,225,.55);--line:rgba(255,255,255,.09);--card:rgba(255,255,255,.06);--accent:#f0b968;--barbg:rgba(20,17,16,.92)'
+      : '--bg:#f6f1e8;--ink:#1b1712;--sub:rgba(27,23,18,.55);--line:rgba(27,23,18,.08);--card:rgba(27,23,18,.05);--accent:#c37a2c;--barbg:rgba(246,241,232,.92)';
+    return {
+      clock, t, day, days, themeVars, analysisText, brandName: ja ? 'ようき' : 'sunlight',
+      evBg, pvSky, pvOp, pvGlowB, pvGlowOp,
+      pickFL: pick('firstLight'), pickGA: pick('golden'), pickSR: pick('sunrise'), pickDL: pick('daylight'), pickPM: pick('goldenPM'), pickSS: pick('sunset'),
+      brandSize: ja ? '14.5px' : '16px', brandSizeBig: ja ? '25px' : '28px', brandSpace: ja ? '-0.05em' : '-0.01em',
+      locName: (LOCS[this.state.loc] || LOCS[0])[ja ? 'ja' : 'en'],
+      locs, showLoc: this.state.showLoc, showPaywall: this.state.showPaywall,
+      planLabel: plan === 'pro' ? t.planPro : plan === 'free' ? t.planFree : t.planTrial, notPro: plan !== 'pro',
+      paySelYr: this.state.paySel === 'yr', paySelMo: this.state.paySel === 'mo', pwBrand: (ja ? 'ようき' : 'sunlight') + ' Pro',
+      wakeable: true,
+      wakeLabel: this.state.armed[this.state.day]
+        ? ((!pv || pv === 'firstLight' || pv === 'golden' || pv === 'sunrise') ? t.wakeSet : t.remindSet)
+        : ((!pv || pv === 'firstLight' || pv === 'golden' || pv === 'sunrise') ? t.wakeMe : t.remindMe),
+      wakeBg: this.state.armed[this.state.day] ? '#e0913a' : 'transparent',
+      wakeCol: this.state.armed[this.state.day] ? '#fff' : 'var(--accent,#c37a2c)',
+      wakeBorder: this.state.armed[this.state.day] ? '#e0913a' : 'var(--line,rgba(27,23,18,.12))',
+      toggleWake: () => this.setState(s => ({ armed: { ...s.armed, [s.day]: !s.armed[s.day] } })),
+      skyH: view === 'expanded' ? '100%' : '266px',
+      skyRad: view === 'expanded' ? '0' : '0 0 30px 30px',
+      isHome: view === 'home', isExpanded: view === 'expanded',
+      isOnboarding: view === 'onboarding', showSettings: this.state.showSettings, showCalendar: this.state.showCalendar,
+      isSettings: view === 'settings',
+      tSmart: mkT(this.state.smartAlarm), tWeekend: mkT(this.state.weekend), tSunset: mkT(this.state.sunsetAl),
+      icon0: this.state.appIcon === 0, icon1: this.state.appIcon === 1, icon2: this.state.appIcon === 2,
+      themeIsLight: theme === 'light', themeIsDark: theme === 'dark',
+      langIsEn: !ja, langIsJa: ja,
+      ob0: this.state.ob === 0, ob1: this.state.ob === 1, ob2: this.state.ob === 2, ob3: this.state.ob === 3,
+      obD0: this.state.ob === 0 ? 1 : .25, obD1: this.state.ob === 1 ? 1 : .25, obD2: this.state.ob === 2 ? 1 : .25, obD3: this.state.ob === 3 ? 1 : .25,
+      obBtn: this.state.ob < 3 ? t.next : t.pwCta,
+      selectDay: (e) => { e.stopPropagation(); const i = +e.currentTarget.dataset.idx; this.setState({ day: i }); if ((this.state.view ?? 'home') === 'expanded') this.genAnalysis(i); },
+      toggleSky: () => { const expanding = (this.state.view ?? 'home') !== 'expanded'; this.setState({ view: expanding ? 'expanded' : 'home' }); if (expanding) this.genAnalysis(); },
+      openSettings: (e) => { e.stopPropagation(); this.setState({ showSettings: true }); },
+      closeSettings: () => this.setState({ showSettings: false }),
+      openCalendar: (e) => { e.stopPropagation(); this.setState({ showCalendar: true }); },
+      closeCalendar: () => this.setState({ showCalendar: false }),
+      toggleCalInfo: () => this.setState(s => ({ showCalInfo: !s.showCalInfo })),
+      showCalInfo: this.state.showCalInfo,
+      selectDayCal: (e) => { if (e.currentTarget.dataset.locked === '1') { this.setState({ showPaywall: true }); return; } this.setState({ day: +e.currentTarget.dataset.idx, showCalendar: false }); },
+      openLoc: (e) => { e.stopPropagation(); this.setState({ showLoc: true }); },
+      closeLoc: () => this.setState({ showLoc: false }),
+      selectLoc: (e) => this.setState({ loc: +e.currentTarget.dataset.idx, showLoc: false }),
+      addLocClick: () => { if (plan === 'free') this.setState({ showPaywall: true, showLoc: false }); },
+      widgetsClick: () => { if (plan !== 'pro') this.setState({ showPaywall: true, view: 'home' }); },
+      isFree: plan === 'free',
+      openPaywall: () => this.setState({ showPaywall: true, showSettings: false, showCalendar: false }),
+      closePaywall: () => this.setState({ showPaywall: false }),
+      setPayYr: () => this.setState({ paySel: 'yr' }),
+      setPayMo: () => this.setState({ paySel: 'mo' }),
+      payCta: () => this.setState({ plan: 'pro', showPaywall: false }),
+      openFullSettings: () => this.setState({ view: 'settings', showSettings: false }),
+      closeFullSettings: () => this.setState({ view: 'home' }),
+      toggleSmart: () => this.setState(s => ({ smartAlarm: !s.smartAlarm })),
+      toggleWeekend: () => this.setState(s => ({ weekend: !s.weekend })),
+      toggleSunset: () => this.setState(s => ({ sunsetAl: !s.sunsetAl })),
+      selectIcon: (e) => this.setState({ appIcon: +e.currentTarget.dataset.idx }),
+      setThemeLight: () => this.setState({ theme: 'light' }),
+      setThemeDark: () => this.setState({ theme: 'dark' }),
+      setLangEn: () => { this.setState({ lang: 'en' }); if ((this.state.view ?? 'home') === 'expanded') this.genAnalysis(null, 'en'); },
+      setLangJa: () => { this.setState({ lang: 'ja' }); if ((this.state.view ?? 'home') === 'expanded') this.genAnalysis(null, 'ja'); },
+      obNext: () => this.setState(s => s.ob < 3 ? { ob: s.ob + 1 } : { view: 'home', ob: 0 }),
+      obSkip: () => this.setState({ view: 'home', ob: 0 })
+    };
+  }
+}
+</script>
+</body>
+</html>
