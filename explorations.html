@@ -3,7 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunlight · ようき — widget explorations</title>
 <script src="./support.js"></script>
+<style>
+  .site-nav{position:fixed;top:16px;left:16px;z-index:100;display:flex;gap:8px;font-family:'Manrope','Zen Kaku Gothic New',sans-serif}
+  .site-nav a{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:#1b1712;text-decoration:none;
+    background:rgba(255,255,255,.55);border:1px solid rgba(27,23,18,.14);border-radius:999px;
+    padding:8px 15px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .site-nav a:hover{background:rgba(255,255,255,.85);border-color:rgba(27,23,18,.28);color:#1b1712}
+  .site-nav a:focus-visible{outline:2px solid #e0913a;outline-offset:2px}
+  .site-nav .disc{width:11px;height:11px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 1.5px rgba(255,236,190,.6);flex:none}
+</style>
 </head>
 <body>
 <x-dc>
@@ -782,5 +797,19 @@
 </section>
 
 </x-dc>
+<nav class="site-nav" aria-label="Prototype views">
+  <a href="./"><span class="disc"></span>App</a>
+</nav>
+<script>
+(function () {
+  if (!location.hash) return;
+  var tries = 0;
+  var t = setInterval(function () {
+    var el = document.getElementById(location.hash.slice(1));
+    if (el) { el.scrollIntoView(); clearInterval(t); }
+    else if (++tries > 100) clearInterval(t);
+  }, 100);
+})();
+</script>
 </body>
 </html>

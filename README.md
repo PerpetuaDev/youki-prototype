@@ -1,8 +1,8 @@
 # Handoff: Sunlight — sunrise tracking app
 
-> **Live:** [Handoff site](https://perpetuadev.github.io/youki-prototype/) · [Prototype](https://perpetuadev.github.io/youki-prototype/prototype.html) · [Widget explorations](https://perpetuadev.github.io/youki-prototype/explorations.html)
+> **Live:** [Prototype](https://perpetuadev.github.io/youki-prototype/) · [Widget explorations](https://perpetuadev.github.io/youki-prototype/explorations.html#t7) · [Onboarding flow](https://perpetuadev.github.io/youki-prototype/?onboarding)
 >
-> In this repo, `prototype.html` = "Sunlight Prototype.dc.html" and `explorations.html` = "Sunlight Explorations.dc.html" from the original design bundle. Content is unchanged; files were renamed for clean URLs.
+> In this repo, `index.html` = "Sunlight Prototype.dc.html" and `explorations.html` = "Sunlight Explorations.dc.html" from the original design bundle, renamed for clean URLs. The only additions are the small view-switcher buttons top-left and a `?onboarding` query flag that starts the prototype on the onboarding flow.
 
 ## Overview
 **Sunlight** (Japanese brand name: **ようき**) is an iOS app that predicts how visible and colourful the local sunrise will be, up to 7 days ahead. It scores each morning 0–100, renders a faithful simulation of the predicted sky as the app's hero surface, suggests promising mornings via evening notifications, and lets the user opt in to a wake-up alarm per day. Free tier covers today + tomorrow and one location; Pro unlocks the 7-day calendar, multiple locations, one-tap wake-ups, and home-screen widgets.
