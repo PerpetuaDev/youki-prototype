@@ -1,8 +1,8 @@
 # Handoff: Sunlight — sunrise tracking app
 
-> **Live:** [Prototype](https://perpetuadev.github.io/youki-prototype/) · [Widget explorations](https://perpetuadev.github.io/youki-prototype/explorations.html#t7) · [Onboarding flow](https://perpetuadev.github.io/youki-prototype/?onboarding)
+> **Live:** [Prototype](https://perpetuadev.github.io/youki-prototype/) · [Widgets](https://perpetuadev.github.io/youki-prototype/widgets.html) · [Onboarding flow](https://perpetuadev.github.io/youki-prototype/?onboarding)
 >
-> In this repo, `index.html` = "Sunlight Prototype.dc.html" and `explorations.html` = "Sunlight Explorations.dc.html" from the original design bundle, renamed for clean URLs. The only additions are the small view-switcher buttons top-left and a `?onboarding` query flag that starts the prototype on the onboarding flow.
+> In this repo, `index.html` = "Sunlight Prototype.dc.html" from the original design bundle, and `widgets.html` holds only the final widget deliverables (7a–7d plus the 6c lock screen) extracted from the design-history file. The only additions are the small view-switcher buttons top-left and a `?onboarding` query flag that starts the prototype on the onboarding flow.
 
 ## Overview
 **Sunlight** (Japanese brand name: **ようき**) is an iOS app that predicts how visible and colourful the local sunrise will be, up to 7 days ahead. It scores each morning 0–100, renders a faithful simulation of the predicted sky as the app's hero surface, suggests promising mornings via evening notifications, and lets the user opt in to a wake-up alarm per day. Free tier covers today + tomorrow and one location; Pro unlocks the 7-day calendar, multiple locations, one-tap wake-ups, and home-screen widgets.
@@ -10,9 +10,9 @@
 ## About the Design Files
 The files in this bundle are **design references created in HTML** — interactive prototypes showing the intended look and behaviour, not production code. The task is to **recreate these designs in the target codebase's environment** (SwiftUI is the natural fit for iOS + WidgetKit; otherwise React Native or the team's established stack) using its patterns and libraries. If no codebase exists yet, choose the most appropriate iOS framework and implement there.
 
-- `Sunlight Prototype.dc.html` — the complete app: all screens, light/dark themes, English/Japanese locales, free/trial/pro plan states. **This is the source of truth.**
-- `Sunlight Explorations.dc.html` — design history (turns 1–7). Only **turn 7 widgets (7a–7d)** are current deliverables; earlier turns are context.
-- `support.js` — prototype runtime only; ignore for implementation (but keep next to the HTML files to open them in a browser).
+- `index.html` (originally "Sunlight Prototype.dc.html") — the complete app: all screens, light/dark themes, English/Japanese locales, free/trial/pro plan states. **This is the source of truth.**
+- `widgets.html` — the final widget deliverables: turn-7 widgets **7a–7d** plus the **6c lock-screen** pieces, extracted from the design-history file (which is not in this repo).
+- `support.js` — prototype runtime only; ignore for implementation (needed next to `index.html` to open it in a browser; `widgets.html` is plain HTML).
 
 ## Fidelity
 **High-fidelity.** Colors, typography, spacing, copy, and interactions are final design intent. Recreate pixel-perfectly. All measurements below are CSS px at a 340×722 iPhone frame (roughly iOS points).
@@ -114,13 +114,13 @@ Logo disc + "sunlight Pro" 19px/700, subtitle "See the whole week coming.", 4 be
 3. "We suggest — you choose": mock notification card (logo, 21:30, "Tomorrow looks like an 88 — sunrise 5:51. Wake up for it?", Wake me / Skip buttons).
 4. Pro pitch + trial note. CTA advances; final CTA "Start watching the sky"; Skip under every step.
 
-### 9. Widgets (Explorations, turn 7 — current)
+### 9. Widgets (see `widgets.html`)
 All widgets: sky or dark ground as full surface, 26px corners, Manrope, no sun glow (legibility), location = double-ring + "YOKOHAMA" 9.5px/700 spaced caps.
 - **7a Dawn forecast (2×2, 158px)**: always tomorrow's predicted dawn gradient. Score 44px/300 top (optically outdented −2.5px), condition word, footer stacked: "Golden hour" 12px/700 + countdown 11px/600 .8 opacity.
 - **7b Live sky (4×2, 338×158)**: surface = current sky simulation. Score 42px/300 + one-word condition top-left; "◎ YOKOHAMA" bottom-left; next event bottom-right, right-aligned: name 12px/700 + countdown 26px/300. **On the daylight (pale) sky use dark ink `#16354e` with light text-shadow `rgba(255,255,255,.35)`;** on dark skies white with `rgba(0,0,0,.3)` shadow.
 - **7c Live sky (2×2)**: small 7b — score top, stacked next event bottom-left.
 - **7d Colour bar (2×2 + 4×2, minimal)**: flat `#141110` ground, ink `#f3ece1`, condition word in `#f0b968`. Score top-left; event ("Golden hour / in 31 min") above a full-width 12px ramp bar along the bottom. Medium adds the event top-right and times under the ramp ("First light 5:14 · Golden 5:24 · Sunrise 5:51", 9.5px/600 55%).
-- **Lock screen** (turn 6, 6c): monochrome inline "5:51 · 96 Exceptional" and a circular dial with dashed sun-position arc + score.
+- **Lock screen** (6c): monochrome inline "5:51 · 96 Exceptional" and a circular dial with dashed sun-position arc + score.
 
 ## Interactions & Behavior
 - **Sheets** (calendar, locations, settings mini, paywall): open over a scrim; close ONLY by tapping the backdrop (or swipe-down in native). No close buttons.
@@ -144,9 +144,6 @@ All widgets: sky or dark ground as full surface, 26px corners, Manrope, no sun g
 
 ## Localization
 Full EN/JP string tables live in the prototype's logic (objects `en` and `jp`, ~70 keys). Japanese uses the same layout with adjusted wordmark size/tracking. Countdown format JP: 「あとN分」/「あとN時間M分」.
-
-## Screenshots
-`screenshots/` contains 2x captures of the current widget deliverables: `7a-dawn-forecast-small.png`, `7b-live-sky-medium.png`, `7c-live-sky-small.png`, `7d-colour-bar.png` (each includes its design annotation and states).
 
 ## Assets
 No bitmap assets. Everything is code-drawn: gradients, blurred-ellipse clouds, radial sun glow, inline SVG icons, CSS logo disc. Fonts from Google Fonts (Manrope, Zen Kaku Gothic New).

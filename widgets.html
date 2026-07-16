@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sunlight · ようき — widgets</title>
+<meta name="description" content="Final widget deliverables for Sunlight (ようき): dawn forecast, live sky, colour bar, and lock screen.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=Zen+Kaku+Gothic+New:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;background:#ece5da;font-family:"Manrope",system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  *{box-sizing:border-box}
+  .dv-turn{padding:70px 56px 44px;scroll-margin-top:16px}
+  .dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 6px}
+  .dv-tname{font:600 15px/1.2 "Manrope",sans-serif;color:#1b1712}
+  .dv-sub{font:400 12.5px/1.5 "Manrope",sans-serif;color:rgba(27,23,18,.55);margin:0 0 26px;max-width:640px}
+  .dv-grouplabel{font:700 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:rgba(27,23,18,.4);margin:30px 0 18px}
+  .dv-opts{display:flex;flex-wrap:wrap;gap:34px;align-items:flex-start}
+  .dv-opt{flex:none;display:flex;flex-direction:column;gap:11px;scroll-margin-top:16px}
+  .dv-oid{font:700 10.5px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.08);color:#1b1712;border-radius:5px;text-decoration:none}
+  .dv-olabel{display:flex;align-items:baseline;gap:9px;font:400 11.5px/1.35 "Manrope",sans-serif;color:rgba(27,23,18,.6);max-width:344px}
+  .dv-olabel b{color:#1b1712;font-weight:600}
+  .dv-opt:target .dv-oid{background:#e0913a;color:#fff}
+  a{color:#b9772a}
+  a:hover{color:#8f5c1f}
+  .site-nav{position:fixed;top:16px;left:16px;z-index:100;display:flex;gap:8px;font-family:'Manrope','Zen Kaku Gothic New',sans-serif}
+  .site-nav a{
+    display:inline-flex;align-items:center;gap:7px;
+    font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+    color:#1b1712;text-decoration:none;
+    background:rgba(255,255,255,.55);border:1px solid rgba(27,23,18,.14);border-radius:999px;
+    padding:8px 15px;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+    transition:background .15s ease,border-color .15s ease;
+  }
+  .site-nav a:hover{background:rgba(255,255,255,.85);border-color:rgba(27,23,18,.28);color:#1b1712}
+  .site-nav a:focus-visible{outline:2px solid #e0913a;outline-offset:2px}
+  .site-nav .disc{width:11px;height:11px;border-radius:50%;background:#f0a13f;box-shadow:inset 0 0 0 1.5px rgba(255,236,190,.6);flex:none}
+</style>
+</head>
+<body>
+<nav class="site-nav" aria-label="Prototype views">
+  <a href="./"><span class="disc"></span>App</a>
+</nav>
+
+<section class="dv-turn" id="widgets">
+  <div class="dv-thd"><span class="dv-tname">Widgets — final deliverables</span></div>
+  <p class="dv-sub">Two widget behaviours: a <b>Dawn forecast</b> widget that always shows tomorrow morning's predicted colours and counts down to golden hour, and a <b>Live sky</b> widget that simulates whatever the sky looks like right now and tracks the next event through the whole day — same event-adjusted logic as the app's home stack. Plus a minimal <b>Colour bar</b> variant and the monochrome <b>lock-screen</b> pieces.</p>
+
+  <div class="dv-opts">
+    <!-- 7a dawn forecast -->
+    <div class="dv-opt" id="7a">
+      <div class="dv-olabel"><a class="dv-oid" href="#7a">7a</a><span><b>Dawn forecast (2×2).</b> Surface is always the predicted sunrise. Bottom line is always "Golden hour in X". Left: seen at 21:00 the evening before; right: pre-dawn, minutes out.</span></div>
+      <div style="background:linear-gradient(160deg,#2c2a38,#1a1922);border-radius:24px;padding:26px;display:flex;gap:20px">
+        <div style="width:158px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#fff;background:linear-gradient(180deg,#6e7f99 0%,#a68aa0 30%,#de8d7d 58%,#f9a55c 78%,#ffd27a 100%);font-family:'Manrope'">
+          <div style="position:relative;padding:15px 16px;display:flex;flex-direction:column;height:100%">
+            <div style="font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px;text-shadow:0 1px 12px rgba(0,0,0,.2)">96</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px;text-shadow:0 1px 6px rgba(0,0,0,.25)">Exceptional</div>
+            <div style="margin-top:auto;text-shadow:0 1px 6px rgba(0,0,0,.3)"><div style="font-size:12px;font-weight:700">Golden hour</div><div style="font-size:11px;font-weight:600;opacity:.8;margin-top:1px">in 8h 24m</div></div>
+          </div>
+        </div>
+        <div style="width:158px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#fff;background:linear-gradient(180deg,#4a5e7d 0%,#8d7f96 28%,#d98f75 56%,#ffb45e 80%,#ffd98a 100%);font-family:'Manrope'">
+          <div style="position:relative;padding:15px 16px;display:flex;flex-direction:column;height:100%">
+            <div style="font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px;text-shadow:0 1px 12px rgba(0,0,0,.2)">96</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px;text-shadow:0 1px 6px rgba(0,0,0,.25)">Exceptional</div>
+            <div style="margin-top:auto;text-shadow:0 1px 6px rgba(0,0,0,.3)"><div style="font-size:12px;font-weight:700">Golden hour</div><div style="font-size:11px;font-weight:600;opacity:.8;margin-top:1px">in 31 min</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7b live sky -->
+    <div class="dv-opt" id="7b">
+      <div class="dv-olabel"><a class="dv-oid" href="#7b">7b</a><span><b>Live sky (4×2), calmer.</b> Score-first like the small widget; one next event, large, anchored bottom. Top: midday clear blue; bottom: minutes before sunset.</span></div>
+      <div style="background:linear-gradient(160deg,#2c2a38,#1a1922);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:20px">
+        <div style="width:338px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#16354e;background:linear-gradient(180deg,#3d7ec4 0%,#6ba3d8 34%,#a8cbe8 62%,#d8e8f2 84%,#eef2ec 100%);font-family:'Manrope'">
+          <div style="position:relative;padding:15px 18px;display:flex;flex-direction:column;height:100%;text-shadow:0 1px 6px rgba(255,255,255,.35)">
+            <div style="font-size:42px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px">96</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px">Clear</div>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end"><div style="font-size:9.5px;font-weight:700;letter-spacing:.06em;opacity:.95;display:flex;align-items:center;gap:4px"><svg width="10" height="10" viewBox="0 0 12 12" style="flex:none"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="1.1"></circle><circle cx="6" cy="6" r="1.9" fill="none" stroke="currentColor" stroke-width="1.1"></circle></svg>YOKOHAMA</div><div style="text-align:right"><div style="font-size:12px;font-weight:700">Golden hour</div><div style="font-size:26px;font-weight:300;letter-spacing:-.02em;line-height:1.1">in 5h 25m</div></div></div>
+          </div>
+        </div>
+        <div style="width:338px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#fff;background:linear-gradient(180deg,#2e3d5c 0%,#5c5a86 28%,#a86a8a 54%,#e87e5f 78%,#ff9e46 100%);font-family:'Manrope'">
+          <div style="position:relative;padding:15px 18px;display:flex;flex-direction:column;height:100%;text-shadow:0 1px 8px rgba(0,0,0,.3)">
+            <div style="font-size:42px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px">91</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px">Vivid</div>
+            <div style="margin-top:auto;display:flex;justify-content:space-between;align-items:flex-end"><div style="font-size:9.5px;font-weight:700;letter-spacing:.06em;opacity:.95;display:flex;align-items:center;gap:4px"><svg width="10" height="10" viewBox="0 0 12 12" style="flex:none"><circle cx="6" cy="6" r="5" fill="none" stroke="currentColor" stroke-width="1.1"></circle><circle cx="6" cy="6" r="1.9" fill="none" stroke="currentColor" stroke-width="1.1"></circle></svg>YOKOHAMA</div><div style="text-align:right"><div style="font-size:12px;font-weight:700">Sunset</div><div style="font-size:26px;font-weight:300;letter-spacing:-.02em;line-height:1.1">in 12 min</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7c live sky small -->
+    <div class="dv-opt" id="7c">
+      <div class="dv-olabel"><a class="dv-oid" href="#7c">7c</a><span><b>Live sky (2×2).</b> The small version of <a href="#7b">7b</a> — current sky as the surface, next event stacked at the bottom. Left: midday; right: pre-sunset.</span></div>
+      <div style="background:linear-gradient(160deg,#2c2a38,#1a1922);border-radius:24px;padding:26px;display:flex;gap:20px">
+        <div style="width:158px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#16354e;background:linear-gradient(180deg,#3d7ec4 0%,#6ba3d8 34%,#a8cbe8 62%,#d8e8f2 84%,#eef2ec 100%);font-family:'Manrope'">
+          <div style="position:relative;padding:15px 16px;display:flex;flex-direction:column;height:100%;text-shadow:0 1px 6px rgba(255,255,255,.35)">
+            <div style="font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px">96</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px">Clear</div>
+            <div style="margin-top:auto"><div style="font-size:12px;font-weight:700">Golden hour</div><div style="font-size:11px;font-weight:600;opacity:.85;margin-top:1px">in 5h 25m</div></div>
+          </div>
+        </div>
+        <div style="width:158px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#fff;background:linear-gradient(180deg,#2e3d5c 0%,#5c5a86 28%,#a86a8a 54%,#e87e5f 78%,#ff9e46 100%);font-family:'Manrope'">
+          <div style="position:relative;padding:15px 16px;display:flex;flex-direction:column;height:100%;text-shadow:0 1px 8px rgba(0,0,0,.3)">
+            <div style="font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px">91</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px">Vivid</div>
+            <div style="margin-top:auto"><div style="font-size:12px;font-weight:700">Sunset</div><div style="font-size:11px;font-weight:600;opacity:.85;margin-top:1px">in 12 min</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 7d colour bar minimal -->
+    <div class="dv-opt" id="7d">
+      <div class="dv-olabel"><a class="dv-oid" href="#7d">7d</a><span><b>Colour bar (2×2 + 4×2).</b> Minimal sunrise predictor on the app's dark ground — the predicted palette ramp is the only image. Medium adds the morning's times under the ramp.</span></div>
+      <div style="background:linear-gradient(160deg,#2c2a38,#1a1922);border-radius:24px;padding:26px;display:flex;gap:20px;align-items:flex-start;flex-wrap:wrap">
+        <div style="width:158px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#f3ece1;background:#141110;font-family:'Manrope'">
+          <div style="position:relative;padding:15px 16px;display:flex;flex-direction:column;height:100%">
+            <div style="font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px">96</div>
+            <div style="font-size:10.5px;font-weight:600;margin-top:2px;color:#f0b968">Exceptional</div>
+            <div style="margin-top:auto"><div style="font-size:12px;font-weight:700">Golden hour</div><div style="font-size:11px;font-weight:600;opacity:.6;margin-top:1px">in 31 min</div></div>
+            <div style="margin-top:9px;height:12px;border-radius:6px;background:linear-gradient(90deg,#6e7f99,#a68aa0,#de8d7d,#f9a55c,#ffd27a)"></div>
+          </div>
+        </div>
+        <div style="width:338px;height:158px;border-radius:26px;overflow:hidden;position:relative;color:#f3ece1;background:#141110;font-family:'Manrope'">
+          <div style="position:relative;padding:15px 18px;display:flex;flex-direction:column;height:100%">
+            <div style="display:flex;justify-content:space-between;align-items:flex-start">
+              <div><div style="font-size:44px;font-weight:300;line-height:1;letter-spacing:-.03em;margin-left:-2.5px">96</div><div style="font-size:10.5px;font-weight:600;margin-top:2px;color:#f0b968">Exceptional</div></div>
+              <div style="text-align:right"><div style="font-size:12px;font-weight:700">Golden hour</div><div style="font-size:11px;font-weight:600;opacity:.6;margin-top:1px">in 31 min</div></div>
+            </div>
+            <div style="margin-top:auto;height:12px;border-radius:6px;background:linear-gradient(90deg,#6e7f99,#a68aa0,#de8d7d,#f9a55c,#ffd27a)"></div>
+            <div style="margin-top:8px;display:flex;justify-content:space-between;font-size:9.5px;font-weight:600;opacity:.55"><span>First light 5:14</span><span>Golden 5:24</span><span>Sunrise 5:51</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="dv-grouplabel">Lock screen</div>
+  <div class="dv-opts">
+    <!-- 6c lock screen -->
+    <div class="dv-opt" id="6c">
+      <div class="dv-olabel"><a class="dv-oid" href="#6c">6c</a><span><b>Lock screen (inline + circular).</b> Monochrome per iOS lock-screen rules: score, time, and a mini sun-position dial.</span></div>
+      <div style="background:linear-gradient(160deg,#2c2a38,#1a1922);border-radius:24px;padding:26px;display:flex;flex-direction:column;gap:18px;align-items:center;min-width:260px">
+        <div style="display:flex;align-items:center;gap:8px;color:rgba(255,255,255,.92);font-family:'Manrope';font-size:14px;font-weight:600"><span style="width:12px;height:12px;border-radius:50%;background:rgba(255,255,255,.92);box-shadow:inset 0 0 0 2px rgba(0,0,0,.35)"></span>5:51 · 96 Exceptional</div>
+        <div style="width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.14);position:relative;display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Manrope'">
+          <svg viewBox="0 0 64 64" style="position:absolute;inset:0"><path d="M12 44 A 24 24 0 0 1 52 44" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 5"/><circle cx="22" cy="30" r="4.5" fill="#fff"/></svg>
+          <span style="font-size:15px;font-weight:700;margin-top:14px">96</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+</html>
